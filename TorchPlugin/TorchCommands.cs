@@ -39,7 +39,7 @@ namespace TorchPlugin
         }
 
         // ReSharper disable once UnusedMember.Global
-        [Command("enable", "Enables the plugin")]
+        [Command("disable", "Disables the plugin")]
         [Permission(MyPromoteLevel.Admin)]
         public void Disable()
         {

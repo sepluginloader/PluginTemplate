@@ -9,10 +9,11 @@
 7. Open the solution
 8. Make a test build
 9. Test that the empty plugins can be enabled in the client, Torch and the Dedicated Server
-10. Replace the GUID value in `AssemblyInfo.cs` of each project with a new random one. Replace them consistently in all files, including project files. Make sure `manifest.xml` is good in the `TorchPlugin` project
-11. Search for `MyPlugin` in all C# source files and replace with your plugin's name accordingly
-12. Optionally change the top level namespace name to yours
-13. Rename your projects and solution if/as needed, with replace all in files or with rename refactoring if available in your IDE
-14. Replace this file with the description of your plugin
+10. Replace the GUID value in `AssemblyInfo.cs` of each project with a new random one, the GUID must be unique for each project separately. Replace them consistently in all files, including project files.
+11. Make sure `manifest.xml` has the right information in the `TorchPlugin` project
+12. Search for `MyPlugin` in all C# source files and replace with your plugin's name accordingly
+13. Optionally change the top level namespace name to yours
+14. Rename your projects and solution if/as needed, with replace all in files or with rename refactoring if available in your IDE
+15. Replace this file with the description of your plugin
 
 _You can skip steps depending on which kinds of plugin you plan to develop._

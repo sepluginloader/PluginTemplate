@@ -8,7 +8,7 @@ namespace DedicatedPlugin
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin
     {
-        public const string Name = "MyPlugin"; // FIXME: Change the name!
+        public const string Name = "MyPlugin"; // TODO: Change the name!
 
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 

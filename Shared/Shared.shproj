@@ -3,7 +3,7 @@
     <PropertyGroup Label="Globals">
         <ProjectGuid>{204234CA-79BF-42DE-BCE7-4737BBCC0290}</ProjectGuid>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-        <RootNamespace>SharedPlugin</RootNamespace>
+        <RootNamespace>Shared</RootNamespace>
     </PropertyGroup>
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props" />

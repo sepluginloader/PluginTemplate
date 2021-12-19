@@ -14,5 +14,7 @@ echo Deploying binary:
 echo From %1 to "%TARGET%\%NAME%.dll"
 copy /y %1 "%TARGET%\%NAME%.dll"
 copy /y "%SRC%\manifest.xml" "%TARGET%\"
+echo Done
+exit 0
 
 :EOF

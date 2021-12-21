@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <PluginManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Name>MyPlugin</Name>
+  <Name>PluginTemplate</Name>
   <Guid>BA48180C-934C-484C-B502-44C1A855A37C</Guid>
-  <Repository>MyPlugin</Repository>
+  <Repository>PluginTemplate</Repository>
   <Version>v1.0.0</Version>
 </PluginManifest>

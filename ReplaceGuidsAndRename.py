@@ -81,7 +81,7 @@ def main():
                 ext = filename.rsplit('.')[-1]
                 if ext in ('xml', 'cs', 'sln', 'csproj', 'shproj'):
                     path = os.path.join(dirpath, filename)
-                    if '\\obj\\' in path:
+                    if '\\obj\\' in path or '\\bin\\' in path:
                         continue
                     print(f'  {filename}')
                     replace_text_in_file(replacements, path)

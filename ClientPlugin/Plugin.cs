@@ -1,7 +1,8 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using HarmonyLib;
-using NLog;
 using VRage.Plugins;
+using VRage.Utils;
 
 namespace ClientPlugin
 {
@@ -10,7 +11,7 @@ namespace ClientPlugin
     {
         public const string Name = "PluginTemplate";
 
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly PluginLogger Log = new PluginLogger(Name);
 
         private static bool initialized;
 
@@ -19,14 +20,22 @@ namespace ClientPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
-            Log.Debug($"{Name}: Patching");
+            Log.WriteLine(MyLogSeverity.Debug, "Patching");
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Log.Info($"{Name}: Patches applied");
+            Log.WriteLine(MyLogSeverity.Info, "Patches applied");
         }
 
         public void Dispose()
         {
-            // Do NOT use harmony.UnpatchAll()
+            try
+            {
+                // TODO: Put anything that needs to be disposed/closed when the game closes here
+                // Do NOT use harmony.UnpatchAll()
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(MyLogSeverity.Critical, ex);
+            }
         }
 
         public void Update()
@@ -37,15 +46,32 @@ namespace ClientPlugin
             Initialize();
 
             initialized = true;
+
+            try
+            {
+                // TODO: Put anything that needs to be called on update here
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(MyLogSeverity.Critical, ex);
+            }
         }
 
         private void Initialize()
         {
-            Log.Debug($"{Name}: Initializing");
+            Log.WriteLine(MyLogSeverity.Info, "Initializing");
 
-            // TODO: Put your one time initialization here
+            try
+            {
+                // TODO: Put your one time initialization here
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(MyLogSeverity.Critical, ex);
+            }
 
-            Log.Info($"{Name}: Initialized");
+            Log.WriteLine(MyLogSeverity.Info, "Initialized");
         }
     }
 }

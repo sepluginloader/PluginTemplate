@@ -17,4 +17,6 @@ To create your plugin project:
 8. You can delete the `ReplaceGuidsAndRename.py` from the project
 9. Replace this file with the description of your plugin
 
+_NOTE: Do NOT build your project while the game is loading a world/loading the game or the game will not close automatically._
+
 _You can skip steps depending on your specific targets._

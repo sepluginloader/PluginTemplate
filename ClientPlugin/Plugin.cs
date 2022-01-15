@@ -20,8 +20,15 @@ namespace ClientPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
-            Log.WriteLine(MyLogSeverity.Debug, "Patching");
-            Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            Log.WriteLine(MyLogSeverity.Debug, "Patching");            
+            try
+            {
+                Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(MyLogSeverity.Critical, ex);
+            }
             Log.WriteLine(MyLogSeverity.Info, "Patches applied");
         }
 

@@ -71,7 +71,6 @@ namespace ClientPlugin
             try
             {
                 // TODO: Put your one time initialization here
-                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

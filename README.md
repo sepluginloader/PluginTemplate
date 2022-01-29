@@ -15,8 +15,6 @@ To create your plugin project:
 6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) 
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
 8. You can delete the `ReplaceGuidsAndRename.py` from the project
-9. Replace this file with the description of your plugin
-
-_NOTE: Do NOT build your project while the game is loading a world/loading the game or the game will not close automatically._
+9. Replace the contents of this file with the description of your plugin
 
 _You can skip steps depending on your specific targets._

@@ -1,7 +1,5 @@
-﻿using Sandbox.Graphics.GUI;
-using System;
+﻿using System;
 using System.Text;
-using System.Windows.Forms;
 using VRage.Utils;
 
 namespace ClientPlugin
@@ -45,9 +43,9 @@ namespace ClientPlugin
                     case MyLogSeverity.Critical:
                         severityText = "CRITICAL: ";
                         break;
-                        default:
+                    default:
                         severityText = "";
-                            break;
+                        break;
                 }
 
                 if (ex.Message != null)
@@ -60,35 +58,37 @@ namespace ClientPlugin
                     MyLog.Default.Log(severity, "[" + PluginName + "]: Exception Occurred: No exception message.");
                     MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Exception Occurred: No exception message.");
 
-                if (ex.TargetSite != null)
-                {
-                    MyLog.Default.Log(severity, "[" + PluginName + "]: Target Site: " + ex.TargetSite);
-                    MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Target Site: " + ex.TargetSite);
-                }               
-
-                if (ex.StackTrace != null)
-                {
-                    MyLog.Default.Log(severity, "[" + PluginName + "]: Stack Trace: " + ex.StackTrace);
-                    MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Stack Trace: " + ex.StackTrace);
-                }
-
-                if (ex != null && ex.Data.Count > 0)
-                {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.Append("Exception Data:");
-                    foreach (object key in ex.Data.Keys)
+                    if (ex.TargetSite != null)
                     {
-                        stringBuilder.AppendFormat("\n\t{0}: {1}", key, ex.Data[key]);
+                        MyLog.Default.Log(severity, "[" + PluginName + "]: Target Site: " + ex.TargetSite);
+                        MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Target Site: " + ex.TargetSite);
                     }
-                    MyLog.Default.Log(severity, "[" + PluginName + "]: Exception Occurred: " + stringBuilder.ToString());
-                    MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Exception Occurred: " + stringBuilder.ToString());
-                }
 
-                if (ex?.InnerException != null)
-                {
-                    MyLog.Default.Log(severity, "[" + PluginName + "]: InnerException: ");
-                    MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: InnerException: ");
-                    WriteException(severity, ex.InnerException);
+                    if (ex.StackTrace != null)
+                    {
+                        MyLog.Default.Log(severity, "[" + PluginName + "]: Stack Trace: " + ex.StackTrace);
+                        MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Stack Trace: " + ex.StackTrace);
+                    }
+
+                    if (ex != null && ex.Data.Count > 0)
+                    {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        stringBuilder.Append("Exception Data:");
+                        foreach (object key in ex.Data.Keys)
+                        {
+                            stringBuilder.AppendFormat("\n\t{0}: {1}", key, ex.Data[key]);
+                        }
+
+                        MyLog.Default.Log(severity, "[" + PluginName + "]: Exception Occurred: " + stringBuilder.ToString());
+                        MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: Exception Occurred: " + stringBuilder.ToString());
+                    }
+
+                    if (ex?.InnerException != null)
+                    {
+                        MyLog.Default.Log(severity, "[" + PluginName + "]: InnerException: ");
+                        MyLog.Default.WriteLineToConsole(severityText + "[" + PluginName + "]: InnerException: ");
+                        WriteException(severity, ex.InnerException);
+                    }
                 }
             }
         }

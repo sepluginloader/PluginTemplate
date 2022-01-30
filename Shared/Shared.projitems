@@ -9,6 +9,8 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)IPluginLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LogFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedCode.cs" />
   </ItemGroup>
   <ItemGroup>

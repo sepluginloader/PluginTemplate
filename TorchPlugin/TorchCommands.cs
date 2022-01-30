@@ -16,7 +16,7 @@ namespace TorchPlugin
         {
             var config = PluginConfig.Instance;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
-            // TODO: Respond with your property values here
+            // TODO: Respond with your current configuration values
         }
 
         private static string Format(bool value) => value ? "Yes" : "No";

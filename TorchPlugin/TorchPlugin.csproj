@@ -376,6 +376,7 @@
         <Compile Include="PluginConfig.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="TorchCommands.cs" />
+        <Compile Include="TorchPluginLogger.cs" />
     </ItemGroup>
     <ItemGroup>
       <Content Include="deploy.bat" />

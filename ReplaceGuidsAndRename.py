@@ -21,7 +21,7 @@ PROJECT_NAMES = (
 
 
 def generate_guid():
-    return str(uuid.uuid4()).upper()
+    return str(uuid.uuid4())
 
 
 def replace_text_in_file(replacements, path):
@@ -66,12 +66,14 @@ def main():
     if not plugin_name:
         return
 
+    torch_guid = generate_guid()
     replacements = {
         'PluginTemplate': 'PluginName',
-        'E507FDD0-C983-44A3-BBEE-82856AC4AAE0': generate_guid(),
-        'BA48180C-934C-484C-B502-44C1A855A37C': generate_guid(),
-        '21F45862-D7B3-4AFD-8056-099E713A7C25': generate_guid(),
-        '204234CA-79BF-42DE-BCE7-4737BBCC0290': generate_guid(),
+        'E507FDD0-C983-44A3-BBEE-82856AC4AAE0': generate_guid().upper(),
+        '21F45862-D7B3-4AFD-8056-099E713A7C25': generate_guid().upper(),
+        '204234CA-79BF-42DE-BCE7-4737BBCC0290': generate_guid().upper(),
+        'ba48180c-934c-484c-b502-44c1a855a37c': torch_guid,
+        'BA48180C-934C-484C-B502-44C1A855A37C': torch_guid.upper(),
     }
 
     for project_name in PROJECT_NAMES:

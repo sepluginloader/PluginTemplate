@@ -1,83 +1,98 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
+using Shared;
 using VRage.Plugins;
-using VRage.Utils;
 
 namespace ClientPlugin
 {
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin
     {
-        public const string Name = "PluginTemplate";
-
-        private static readonly PluginLogger Log = new PluginLogger(Name);
-
+        private const string Name = "PluginTemplate";
+        private static readonly IPluginLogger Log = new KeenPluginLogger(Name);
+        private static readonly Harmony Harmony = new Harmony(Name);
+        private static readonly object InitializationMutex = new object();
         private static bool initialized;
-
-        private static Harmony Harmony => new Harmony(Name);
+        public static Plugin Instance;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
-            Log.WriteLine(MyLogSeverity.Debug, "Patching");            
+            Instance = this;
+
+            Log.Info("Loading");
+
+            Log.Debug("Patching");
             try
             {
                 Harmony.PatchAll(Assembly.GetExecutingAssembly());
             }
             catch (Exception ex)
             {
-                Log.WriteException(MyLogSeverity.Critical, ex);
+                Log.Critical("Patching failed", ex);
             }
-            Log.WriteLine(MyLogSeverity.Info, "Patches applied");
+
+            Log.Info("Successfully loaded");
         }
 
         public void Dispose()
         {
             try
             {
-                // TODO: Put anything that needs to be disposed/closed when the game closes here
-                // Do NOT use harmony.UnpatchAll()
+                // TODO: Save state and close resources here, called when the game exists (not guaranteed!)
+                // IMPORTANT: Do NOT call harmony.UnpatchAll() here! It may break other plugins.
             }
             catch (Exception ex)
             {
-                Log.WriteException(MyLogSeverity.Critical, ex);
+                Log.Critical("Dispose failed", ex);
             }
+
+            Instance = null;
         }
 
         public void Update()
         {
-            if (initialized)
-                return;
-
-            Initialize();
-
-            initialized = true;
-
+            EnsureInitialized();
             try
             {
-                // TODO: Put anything that needs to be called on update here
+                CustomUpdate();
             }
             catch (Exception ex)
             {
-                Log.WriteException(MyLogSeverity.Critical, ex);
+                Log.Critical("Update failed", ex);
+            }
+        }
+
+        private void EnsureInitialized()
+        {
+            lock (InitializationMutex)
+            {
+                if (initialized)
+                    return;
+
+                Log.Info("Initializing");
+                try
+                {
+                    Initialize();
+                }
+                catch (Exception ex)
+                {
+                    Log.Critical("Failed to initialize plugin", ex);
+                }
+                Log.Info("Successfully initialized");
+                initialized = true;
             }
         }
 
         private void Initialize()
         {
-            Log.WriteLine(MyLogSeverity.Info, "Initializing");
+            // TODO: Put your one time initialization code here. It is executed on first update, not on loading the plugin.
+        }
 
-            try
-            {
-                // TODO: Put your one time initialization here
-            }
-            catch (Exception ex)
-            {
-                Log.WriteException(MyLogSeverity.Critical, ex);
-            }
-
-            Log.WriteLine(MyLogSeverity.Info, "Initialized");
+        private void CustomUpdate()
+        {
+            // TODO: Put your update code here. It is called on every simulation frame!
         }
     }
 }

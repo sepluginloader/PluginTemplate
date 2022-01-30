@@ -68,7 +68,7 @@ def main():
 
     torch_guid = generate_guid()
     replacements = {
-        'PluginTemplate': 'PluginName',
+        'PluginTemplate': plugin_name,
         'E507FDD0-C983-44A3-BBEE-82856AC4AAE0': generate_guid().upper(),
         '21F45862-D7B3-4AFD-8056-099E713A7C25': generate_guid().upper(),
         '204234CA-79BF-42DE-BCE7-4737BBCC0290': generate_guid().upper(),

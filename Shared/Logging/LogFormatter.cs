@@ -34,10 +34,11 @@ namespace Shared.Logging
                 threadLocalStringBuilder.Value = sb;
             }
 
-            if (data != null)
-                sb.Append(string.Format(message, data));
+            sb.Append(data == null ? message : string.Format(message, data));
 
             FormatException(sb, ex);
+
+            sb.Append("\r\n");
 
             var text = sb.ToString();
             sb.Clear();
@@ -48,7 +49,10 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void FormatException(StringBuilder sb, Exception ex)
         {
-            for (var i = 0; ex != null && i < MaxExceptionDepth; i++)
+            if (ex == null)
+                return;
+
+            for (var i = 0; i < MaxExceptionDepth; i++)
             {
                 sb.Append("\r\n[");
                 sb.Append(ex.GetType().Name);
@@ -63,7 +67,7 @@ namespace Shared.Logging
 
                 if (ex.Data.Count > 0)
                 {
-                    sb.Append("\r\nData: ");
+                    sb.Append("\r\nData:");
                     foreach (var key in ex.Data.Keys)
                     {
                         sb.Append("\r\n");
@@ -73,16 +77,17 @@ namespace Shared.Logging
                     }
                 }
 
-                sb.Append("\r\nTraceback:");
+                sb.Append("\r\nTraceback:\r\n");
                 sb.Append(ex.StackTrace);
 
                 ex = ex.InnerException;
                 if (ex == null)
                     return;
+
                 sb.Append("\r\nInner exception:\r\n");
             }
 
-            sb.Append($"WARNING: Not logging more than {MaxExceptionDepth} inner exceptions.");
+            sb.Append($"WARNING: Not logging more than {MaxExceptionDepth} inner exceptions");
         }
     }
 }

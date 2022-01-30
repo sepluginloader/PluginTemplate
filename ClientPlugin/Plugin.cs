@@ -33,7 +33,7 @@ namespace ClientPlugin
                 Log.Critical("Patching failed", ex);
             }
 
-            Log.Info("Successfully loaded");
+            Log.Debug("Successfully loaded");
         }
 
         public void Dispose()
@@ -80,7 +80,8 @@ namespace ClientPlugin
                 {
                     Log.Critical("Failed to initialize plugin", ex);
                 }
-                Log.Info("Successfully initialized");
+
+                Log.Debug("Successfully initialized");
                 initialized = true;
             }
         }

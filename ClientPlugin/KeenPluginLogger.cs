@@ -21,7 +21,7 @@ namespace ClientPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Debug(string message, object[] data, Exception ex = null)
         {
-            if (!MyLog.Default.LogEnabled || MyLog.AssertLevel > MyLogSeverity.Debug)
+            if (!MyLog.Default.LogEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Debug, Format(message, data, ex));
@@ -30,7 +30,7 @@ namespace ClientPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Info(string message, object[] data, Exception ex = null)
         {
-            if (!MyLog.Default.LogEnabled || MyLog.AssertLevel > MyLogSeverity.Info)
+            if (!MyLog.Default.LogEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Info, Format(message, data, ex));
@@ -39,7 +39,7 @@ namespace ClientPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Warning(string message, object[] data, Exception ex = null)
         {
-            if (!MyLog.Default.LogEnabled || MyLog.AssertLevel > MyLogSeverity.Warning)
+            if (!MyLog.Default.LogEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Warning, Format(message, data, ex));
@@ -48,7 +48,7 @@ namespace ClientPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Error(string message, object[] data, Exception ex = null)
         {
-            if (!MyLog.Default.LogEnabled || MyLog.AssertLevel > MyLogSeverity.Error)
+            if (!MyLog.Default.LogEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Error, Format(message, data, ex));
@@ -57,7 +57,7 @@ namespace ClientPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Critical(string message, object[] data, Exception ex = null)
         {
-            if (!MyLog.Default.LogEnabled || MyLog.AssertLevel > MyLogSeverity.Critical)
+            if (!MyLog.Default.LogEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Critical, Format(message, data, ex));

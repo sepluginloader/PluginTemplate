@@ -9,7 +9,9 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)SharedCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\IPluginLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\KeenPluginLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">

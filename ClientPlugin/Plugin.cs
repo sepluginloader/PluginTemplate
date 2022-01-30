@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using HarmonyLib;
-using NLog;
+using Shared.Logging;
 using VRage.Plugins;
 
 namespace ClientPlugin
@@ -8,44 +9,91 @@ namespace ClientPlugin
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin
     {
-        public const string Name = "PluginTemplate";
-
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
+        private const string Name = "PluginTemplate";
+        private static readonly IPluginLogger Log = new KeenPluginLogger(Name);
+        private static readonly Harmony Harmony = new Harmony(Name);
+        private static readonly object InitializationMutex = new object();
         private static bool initialized;
-
-        private static Harmony Harmony => new Harmony(Name);
+        public static Plugin Instance;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
-            Log.Debug($"{Name}: Patching");
-            Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Log.Info($"{Name}: Patches applied");
+            Instance = this;
+
+            Log.Info("Loading");
+
+            Log.Debug("Patching");
+            try
+            {
+                Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
+            catch (Exception ex)
+            {
+                Log.Critical("Patching failed", ex);
+            }
+
+            Log.Debug("Successfully loaded");
         }
 
         public void Dispose()
         {
-            // Do NOT use harmony.UnpatchAll()
+            try
+            {
+                // TODO: Save state and close resources here, called when the game exists (not guaranteed!)
+                // IMPORTANT: Do NOT call harmony.UnpatchAll() here! It may break other plugins.
+            }
+            catch (Exception ex)
+            {
+                Log.Critical("Dispose failed", ex);
+            }
+
+            Instance = null;
         }
 
         public void Update()
         {
-            if (initialized)
-                return;
+            EnsureInitialized();
+            try
+            {
+                CustomUpdate();
+            }
+            catch (Exception ex)
+            {
+                Log.Critical("Update failed", ex);
+            }
+        }
 
-            Initialize();
+        private void EnsureInitialized()
+        {
+            lock (InitializationMutex)
+            {
+                if (initialized)
+                    return;
 
-            initialized = true;
+                Log.Info("Initializing");
+                try
+                {
+                    Initialize();
+                }
+                catch (Exception ex)
+                {
+                    Log.Critical("Failed to initialize plugin", ex);
+                }
+
+                Log.Debug("Successfully initialized");
+                initialized = true;
+            }
         }
 
         private void Initialize()
         {
-            Log.Debug($"{Name}: Initializing");
+            // TODO: Put your one time initialization code here. It is executed on first update, not on loading the plugin.
+        }
 
-            // TODO: Put your one time initialization here
-
-            Log.Info($"{Name}: Initialized");
+        private void CustomUpdate()
+        {
+            // TODO: Put your update code here. It is called on every simulation frame!
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using NLog;
+﻿using Shared.Logging;
 using Torch;
 using Torch.API;
 using Torch.API.Managers;
@@ -11,11 +11,8 @@ namespace TorchPlugin
     public class Plugin : TorchPluginBase
     {
         public const string PluginName = "PluginTemplate";
-
+        public static readonly IPluginLogger Log = new TorchPluginLogger(PluginName);
         public static Plugin Instance;
-
-        private Logger _logger;
-        private Logger Log => _logger ?? (_logger = LogManager.GetLogger(PluginName));
 
         private TorchSessionManager sessionManager;
         private bool Initialized => sessionManager != null;
@@ -30,7 +27,7 @@ namespace TorchPlugin
 
             Instance = this;
 
-            Log.Info($"{PluginName}: Init");
+            Log.Info("Init");
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
@@ -41,28 +38,23 @@ namespace TorchPlugin
             switch (newstate)
             {
                 case TorchSessionState.Loading:
-                    Log.Debug($"{PluginName}: Loading");
+                    Log.Debug("Loading");
                     break;
 
                 case TorchSessionState.Loaded:
-                    Log.Debug($"{PluginName}: Loaded");
-                    // TODO: Put your one time initialization here
+                    Log.Debug("Loaded");
+                    OnLoaded();
                     break;
 
                 case TorchSessionState.Unloading:
-                    Log.Debug($"{PluginName}: Unloading");
-                    // TODO: Make sure to save any persistent modifications here
+                    Log.Debug("Unloading");
+                    OnUnloading();
                     break;
 
                 case TorchSessionState.Unloaded:
-                    Log.Debug($"{PluginName}: Unloaded");
+                    Log.Debug("Unloaded");
                     break;
             }
-        }
-
-        public override void Update()
-        {
-            // TODO: Generic update processing if needed
         }
 
         public override void Dispose()
@@ -72,14 +64,29 @@ namespace TorchPlugin
             if (!Initialized)
                 return;
 
-            Log.Debug($"{PluginName}: Disposing");
+            Log.Debug("Disposing");
 
             sessionManager.SessionStateChanged -= SessionStateChanged;
             sessionManager = null;
 
-            Log.Debug($"{PluginName}: Disposed");
+            Log.Debug("Disposed");
 
             base.Dispose();
+        }
+
+        private void OnLoaded()
+        {
+            // TODO: Put your one time initialization here
+        }
+
+        private void OnUnloading()
+        {
+            // TODO: Make sure to save any persistent modifications here
+        }
+
+        public override void Update()
+        {
+            // TODO: Put your update processing here. It is called on every simulation frame!
         }
     }
 }

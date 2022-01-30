@@ -17,7 +17,7 @@ namespace Shared.Logging
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected string Format(string message, object[] data, Exception ex)
+        protected string Format(Exception ex, string message, object[] data)
         {
             // Allocate a single StringBuilder object per thread
             var sb = threadLocalStringBuilder.Value;

@@ -31,6 +31,7 @@ namespace DedicatedPlugin
             catch (Exception ex)
             {
                 Log.Critical("Patching failed", ex);
+                return;
             }
 
             Log.Debug("Successfully loaded");
@@ -79,6 +80,7 @@ namespace DedicatedPlugin
                 catch (Exception ex)
                 {
                     Log.Critical("Failed to initialize plugin", ex);
+                    return;
                 }
                 Log.Debug("Successfully initialized");
                 initialized = true;

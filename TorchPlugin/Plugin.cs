@@ -1,4 +1,4 @@
-﻿using Shared;
+﻿using Shared.Logging;
 using Torch;
 using Torch.API;
 using Torch.API.Managers;

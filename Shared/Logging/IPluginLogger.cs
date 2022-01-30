@@ -1,6 +1,6 @@
 using System;
 
-namespace Shared
+namespace Shared.Logging
 {
     public interface IPluginLogger
     {

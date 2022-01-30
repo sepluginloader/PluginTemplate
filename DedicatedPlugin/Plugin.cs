@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
-using Shared;
+using Shared.Logging;
 using VRage.Plugins;
 
 namespace DedicatedPlugin

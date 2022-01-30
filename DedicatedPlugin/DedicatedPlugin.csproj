@@ -550,7 +550,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="KeenPluginLogger.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

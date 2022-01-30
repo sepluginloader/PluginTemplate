@@ -1,12 +1,14 @@
 # Space Engineers Plugin Template
 
-Prerequisites:
+## Prerequisites
+
 - Space Engineers
 - Python 3.x (tested with 3.9)
 - [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
 - [Torch Server](https://torchapi.net/) in `C:\Torch`, run `Torch.Server.exe` once to prepare
 
-To create your plugin project:
+## Create your plugin project
+
 1. Click on "Use this template" (top right corner on GitHub) and follow the wizard to create your repository
 2. Clone your repository to have a local working copy
 3. Run `ReplaceGuidsAndRename.py`, enter the name of your plugin project in `CapitalizedWords` format
@@ -18,3 +20,10 @@ To create your plugin project:
 9. Replace the contents of this file with the description of your plugin
 
 _You can skip steps depending on your specific targets._
+
+## Remarks
+
+- Put your shared code into the Shared project.
+- The DLLs required by your Shared code need to be added as a dependency to all the projects, even if some of the code is not used by one of the projects.
+- You can delete the projects your don't need.
+- There is a [simpler template](https://github.com/sepluginloader/ClientPluginTemplate) for client only plugins.

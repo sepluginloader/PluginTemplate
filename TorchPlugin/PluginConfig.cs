@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
-using Shared;
+using Shared.Logging;
 using Torch;
 using Torch.Views;
 

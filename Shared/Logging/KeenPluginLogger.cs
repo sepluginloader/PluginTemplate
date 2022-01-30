@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
-using Shared;
+using Shared.Logging;
 using VRage.Utils;
 
-namespace ClientPlugin
+namespace Shared.Logging
 {
     public class KeenPluginLogger : LogFormatter, IPluginLogger
     {

@@ -19,22 +19,20 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected string Format(string message, object[] data, Exception ex)
         {
-            if (message == null)
-                message = "";
-
-            // Shortcut for the simplest log messages
-            if (ex == null && (data == null || data.Length == 0))
-                return prefix + message;
-
-            // Allocate only a single StringBuilder object per thread
+            // Allocate a single StringBuilder object per thread
             var sb = threadLocalStringBuilder.Value;
             if (sb == null)
             {
-                sb = new StringBuilder(prefix);
+                sb = new StringBuilder();
                 threadLocalStringBuilder.Value = sb;
             }
 
-            sb.Append(data == null ? message : string.Format(message, data));
+            if (message == null)
+                message = "";
+
+            sb.Append(prefix);
+
+            sb.Append(data == null || data.Length == 0 ? message : string.Format(message, data));
 
             FormatException(sb, ex);
 

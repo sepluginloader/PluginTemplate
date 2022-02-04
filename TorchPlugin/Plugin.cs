@@ -140,8 +140,6 @@ namespace TorchPlugin
                 Log.Error(e, "Update failed");
                 failed = true;
             }
-
-            Tick++;
         }
 
         private void CustomUpdate()

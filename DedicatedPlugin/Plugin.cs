@@ -12,6 +12,7 @@ namespace DedicatedPlugin
         public const string Name = "PluginTemplate";
         public static readonly IPluginLogger Log = new KeenPluginLogger(Name);
         public static Plugin Instance;
+        public static long Tick;
 
         private static readonly Harmony Harmony = new Harmony(Name);
 
@@ -34,6 +35,7 @@ namespace DedicatedPlugin
             catch (Exception ex)
             {
                 Log.Critical(ex, "Patching failed");
+                failed = true;
                 return;
             }
 
@@ -61,7 +63,10 @@ namespace DedicatedPlugin
             try
             {
                 if (!failed)
+                {
                     CustomUpdate();
+                    Tick++;
+                }
             }
             catch (Exception ex)
             {

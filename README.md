@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- Space Engineers
-- Python 3.x (tested with 3.9)
+- [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/)
+- [Python 3.x](https://python.org) (tested with 3.9)
 - [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
 - [Torch Server](https://torchapi.net/) in `C:\Torch`, run `Torch.Server.exe` once to prepare
 

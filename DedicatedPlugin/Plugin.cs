@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
+using ClientPlugin.PluginTemplate.Shared.Config;
 using HarmonyLib;
 using Shared.Logging;
+using VRage.FileSystem;
 using VRage.Plugins;
 
 namespace DedicatedPlugin
@@ -10,12 +13,16 @@ namespace DedicatedPlugin
     public class Plugin : IPlugin
     {
         public const string Name = "PluginTemplate";
-        public static readonly IPluginLogger Log = new KeenPluginLogger(Name);
-        public static Plugin Instance;
-        public static long Tick;
+        public static readonly IPluginLogger Log = new PluginLogger(Name);
+        public static long Tick { get; private set; }
 
         private static readonly Harmony Harmony = new Harmony(Name);
 
+        private static readonly string ConfigFileName = $"{Name}.cfg";
+        private PersistentConfig<PluginConfig> config;
+        public static PluginConfig Config => instance?.config?.Data;
+
+        private static Plugin instance;
         private static readonly object InitializationMutex = new object();
         private static bool initialized;
         private static bool failed;
@@ -23,9 +30,12 @@ namespace DedicatedPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
-            Instance = this;
+            instance = this;
 
             Log.Info("Loading");
+
+            var configPath = Path.Combine(MyFileSystem.UserDataPath, ConfigFileName);
+            config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             Log.Debug("Patching");
             try
@@ -54,7 +64,7 @@ namespace DedicatedPlugin
                 Log.Critical(ex, "Dispose failed");
             }
 
-            Instance = null;
+            instance = null;
         }
 
         public void Update()
@@ -93,6 +103,7 @@ namespace DedicatedPlugin
                     failed = true;
                     return;
                 }
+
                 Log.Debug("Successfully initialized");
                 initialized = true;
             }

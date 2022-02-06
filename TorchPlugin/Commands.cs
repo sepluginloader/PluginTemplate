@@ -5,7 +5,7 @@ using VRage.Game.ModAPI;
 namespace TorchPlugin
 {
     [Category(Plugin.PluginName)]
-    public class TorchCommands : CommandModule
+    public class Commands : CommandModule
     {
         private void Respond(string message)
         {
@@ -14,7 +14,7 @@ namespace TorchPlugin
 
         private void RespondWithInfo()
         {
-            var config = PluginConfig.Instance;
+            var config = Plugin.Config;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
             // TODO: Respond with your current configuration values
         }
@@ -34,7 +34,7 @@ namespace TorchPlugin
         [Permission(MyPromoteLevel.Admin)]
         public void Enable()
         {
-            PluginConfig.Instance.Enabled = true;
+            Plugin.Config.Enabled = true;
             RespondWithInfo();
         }
 
@@ -43,10 +43,10 @@ namespace TorchPlugin
         [Permission(MyPromoteLevel.Admin)]
         public void Disable()
         {
-            PluginConfig.Instance.Enabled = false;
+            Plugin.Config.Enabled = false;
             RespondWithInfo();
         }
 
-        // TODO: Add your chat commands here
+        // TODO: Add your commands here
     }
 }

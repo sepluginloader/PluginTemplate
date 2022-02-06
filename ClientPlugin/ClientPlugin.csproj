@@ -4,7 +4,7 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{E507FDD0-C983-44A3-BBEE-82856AC4AAE0}</ProjectGuid>
+        <ProjectGuid>{A061FC6C-713E-42CD-B413-151AC8A5074C}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>ClientPlugin</RootNamespace>
@@ -440,6 +440,7 @@
         <Reference Include="System.Xml.ReaderWriter, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
           <HintPath>..\Bin64\System.Xml.ReaderWriter.dll</HintPath>
         </Reference>
+        <Reference Include="System.Xml.Serialization" />
         <Reference Include="System.Xml.XDocument, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
           <HintPath>..\Bin64\System.Xml.XDocument.dll</HintPath>
         </Reference>
@@ -528,6 +529,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="deploy.bat" />
+      <Content Include="PluginHub.xml" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />

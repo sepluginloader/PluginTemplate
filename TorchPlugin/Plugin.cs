@@ -1,24 +1,38 @@
 ﻿#define USE_HARMONY
 
 using System;
+using System.IO;
 using System.Reflection;
+using System.Windows.Controls;
+using ClientPlugin.PluginTemplate.Shared.Config;
 using HarmonyLib;
 using Shared.Logging;
 using Torch;
 using Torch.API;
 using Torch.API.Managers;
+using Torch.API.Plugins;
 using Torch.API.Session;
 using Torch.Session;
 
 namespace TorchPlugin
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class Plugin : TorchPluginBase
+    public class Plugin : TorchPluginBase, IWpfPlugin
     {
         public const string PluginName = "PluginTemplate";
-        public static readonly IPluginLogger Log = new TorchPluginLogger(PluginName);
-        public static Plugin Instance;
-        public static long Tick;
+        public static readonly IPluginLogger Log = new PluginLogger(PluginName);
+        public static long Tick { get; private set; }
+
+        private static readonly string ConfigFileName = $"{PluginName}.cfg";
+        private PersistentConfig<PluginConfig> config;
+        public static PluginConfig Config => instance?.config?.Data;
+
+        private static Plugin instance;
+
+        // ReSharper disable once UnusedMember.Global
+        public UserControl GetControl() => control ?? (control = new ConfigView());
+        private ConfigView control;
+
 
 #if USE_HARMONY
         private static readonly Harmony Harmony = new Harmony(PluginName);
@@ -29,16 +43,19 @@ namespace TorchPlugin
         private bool failed;
 
         // ReSharper disable once UnusedMember.Local
-        private readonly TorchCommands commands = new TorchCommands();
+        private readonly Commands commands = new Commands();
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public override void Init(ITorchBase torch)
         {
             base.Init(torch);
 
-            Instance = this;
+            instance = this;
 
             Log.Info("Init");
+
+            var configPath = Path.Combine(StoragePath, ConfigFileName);
+            config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
 #if USE_HARMONY
             Log.Debug("Patching");
@@ -84,7 +101,7 @@ namespace TorchPlugin
 
         public override void Dispose()
         {
-            Instance = null;
+            instance = null;
 
             if (Initialized)
             {

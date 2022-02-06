@@ -9,6 +9,8 @@ import re
 import sys
 import uuid
 
+DRY_RUN = False
+
 PT_PROJECT_NAME = r'^([A-Z][a-z_0-9]+)+$'
 RX_PROJECT_NAME = re.compile(PT_PROJECT_NAME)
 
@@ -36,7 +38,7 @@ def replace_text_in_file(replacements, path):
     for k, v in replacements.items():
         text = text.replace(k, v)
 
-    if text == original:
+    if DRY_RUN or text == original:
         return
 
     with open(path, 'wt', encoding=encoding) as f:
@@ -69,29 +71,41 @@ def main():
     torch_guid = generate_guid()
     replacements = {
         'PluginTemplate': plugin_name,
-        'E507FDD0-C983-44A3-BBEE-82856AC4AAE0': generate_guid().upper(),
-        '21F45862-D7B3-4AFD-8056-099E713A7C25': generate_guid().upper(),
-        '204234CA-79BF-42DE-BCE7-4737BBCC0290': generate_guid().upper(),
-        'ba48180c-934c-484c-b502-44c1a855a37c': torch_guid,
-        'BA48180C-934C-484C-B502-44C1A855A37C': torch_guid.upper(),
+        'A061FC6C-713E-42CD-B413-151AC8A5074C': generate_guid().upper(),
+        'FFB7FCA3-B168-43F4-8DBF-6247C0D331C8': generate_guid().upper(),
+        'C5784FE0-CF0A-4870-9DEF-7BEA8B64C01A': generate_guid().upper(),
+        'C889318F-9835-4814-B26E-979242CAEB0C': torch_guid.upper(),
+        'c889318f-9835-4814-b26e-979242caeb0c': torch_guid,
     }
 
-    for project_name in PROJECT_NAMES:
-        print(project_name)
-        for dirpath, dirnames, filenames in os.walk(project_name):
-            for filename in filenames:
-                ext = filename.rsplit('.')[-1]
-                if ext in ('xml', 'cs', 'sln', 'csproj', 'shproj'):
-                    path = os.path.join(dirpath, filename)
-                    if '\\obj\\' in path or '\\bin\\' in path:
-                        continue
-                    print(f'  {filename}')
-                    replace_text_in_file(replacements, path)
+    def iter_paths():
+        print('Solution:')
+        yield 'PluginTemplate.sln', 'PluginTemplate.sln'
 
-    os.rename('PluginTemplate.sln', f'{plugin_name}.sln')
+        for project_name in PROJECT_NAMES:
 
-    if os.path.isfile('PluginTemplate.sln.DotSettings.user'):
-        os.rename('PluginTemplate.sln.DotSettings.user', f'{plugin_name}.sln.DotSettings.user')
+            print()
+            print(f'{project_name}:')
+
+            for dirpath, dirnames, filenames in os.walk(project_name):
+                dirpath2 = dirpath + '\\'
+                if '\\obj\\' in dirpath2 or '\\bin\\' in dirpath2:
+                    continue
+
+                for filename in filenames:
+                    ext = filename.rsplit('.')[-1]
+                    if ext in ('xml', 'xaml', 'cs', 'sln', 'csproj', 'shproj'):
+                        path = os.path.join(dirpath, filename)
+                        yield filename, path
+
+    for filename, path in iter_paths():
+        print(f'  {filename}')
+        replace_text_in_file(replacements, path)
+
+    if not DRY_RUN:
+        os.rename('PluginTemplate.sln', f'{plugin_name}.sln')
+        if os.path.isfile('PluginTemplate.sln.DotSettings.user'):
+            os.rename('PluginTemplate.sln.DotSettings.user', f'{plugin_name}.sln.DotSettings.user')
 
     print('Done.')
 

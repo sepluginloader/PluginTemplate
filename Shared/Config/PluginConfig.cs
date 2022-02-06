@@ -4,10 +4,10 @@ namespace ClientPlugin.PluginTemplate.Shared.Config
 {
     public class PluginConfig: IPluginConfig
     {
-        // Enables/disables the plugin
-        public bool Enabled { get; set; }
+        // Enables the plugin
+        public bool Enabled { get; set; } = true;
 
-        // TODO: Implement all config properties
+        // TODO: Implement your config properties and define their defaults
     }
 }
 

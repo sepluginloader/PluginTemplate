@@ -18,6 +18,7 @@
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
 8. Delete the `ReplaceGuidsAndRename.py` from the Shared project and the working copy folder (not needed anymore)
 9. Replace the contents of this file with the description of your plugin
+10. Follow the TODO comments in the source code
 
 ## Remarks
 

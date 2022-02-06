@@ -23,7 +23,34 @@ _You can skip steps depending on your specific targets._
 
 ## Remarks
 
-- Put your shared code into the Shared project.
-- The DLLs required by your Shared code need to be added as a dependency to all the projects, even if some of the code is not used by one of the projects.
-- You can delete the projects your don't need.
-- There is a [simpler template](https://github.com/sepluginloader/ClientPluginTemplate) for client only plugins.
+### Conditional compilation
+
+- DedicatedPlugin defines DEDICATED, TorchPlugin defines TORCH. 
+  You can use those names #if blocks to conditionally compile code in the Shared project.
+
+### Shared project
+
+- Put any code you can share between the plugin projects into the Shared project. 
+  Try to keep the redundancy at the minimum.
+
+- The DLLs required by your Shared code need to be added as a dependency to all the projects, 
+  even if some of the code is not used by one of the projects.
+
+- You can delete the projects you don't need. If you want only a single project, 
+  then move over what is in the Shared one, then you can delete Shared.
+
+### Torch plugin
+
+- For Torch plugins see also the official
+  [Torch Plugin Template](https://torchapi.com/wiki/index.php/Torch_Plugin_Template),
+  it has some additional information in its `README.txt` file.
+
+- If you don't need the config UI in Torch for your plugin, then remove the IWpfPlugin
+  from the Plugin class and the `xaml` and `xaml.cs` files. Also remove the now unused
+  `GetControl` method.
+ 
+- Torch plugins should not use Harmony for patching, ideally. 
+  Torch has its own patching mechanism, which is more compatible with other plugins, 
+  but less convenient to use. If you want to remove Harmony from the Torch plugin, 
+  then search for USE_HARMONY in all files, which will show you where to make changes. 
+  Also remove Lib.Harmony from the TorchPlugin project's NuGet package dependencies.

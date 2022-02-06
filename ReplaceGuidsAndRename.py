@@ -9,6 +9,8 @@ import re
 import sys
 import uuid
 
+DRY_RUN = False
+
 PT_PROJECT_NAME = r'^([A-Z][a-z_0-9]+)+$'
 RX_PROJECT_NAME = re.compile(PT_PROJECT_NAME)
 
@@ -36,7 +38,7 @@ def replace_text_in_file(replacements, path):
     for k, v in replacements.items():
         text = text.replace(k, v)
 
-    if text == original:
+    if DRY_RUN or text == original:
         return
 
     with open(path, 'wt', encoding=encoding) as f:
@@ -76,22 +78,34 @@ def main():
         'BA48180C-934C-484C-B502-44C1A855A37C': torch_guid.upper(),
     }
 
-    for project_name in PROJECT_NAMES:
-        print(project_name)
-        for dirpath, dirnames, filenames in os.walk(project_name):
-            for filename in filenames:
-                ext = filename.rsplit('.')[-1]
-                if ext in ('xml', 'cs', 'sln', 'csproj', 'shproj'):
-                    path = os.path.join(dirpath, filename)
-                    if '\\obj\\' in path or '\\bin\\' in path:
-                        continue
-                    print(f'  {filename}')
-                    replace_text_in_file(replacements, path)
+    def iter_paths():
+        print('Solution:')
+        yield 'PluginTemplate.sln', 'PluginTemplate.sln'
 
-    os.rename('PluginTemplate.sln', f'{plugin_name}.sln')
+        for project_name in PROJECT_NAMES:
 
-    if os.path.isfile('PluginTemplate.sln.DotSettings.user'):
-        os.rename('PluginTemplate.sln.DotSettings.user', f'{plugin_name}.sln.DotSettings.user')
+            print()
+            print(f'{project_name}:')
+
+            for dirpath, dirnames, filenames in os.walk(project_name):
+                dirpath2 = dirpath + '\\'
+                if '\\obj\\' in dirpath2 or '\\bin\\' in dirpath2:
+                    continue
+
+                for filename in filenames:
+                    ext = filename.rsplit('.')[-1]
+                    if ext in ('xml', 'xaml', 'cs', 'sln', 'csproj', 'shproj'):
+                        path = os.path.join(dirpath, filename)
+                        yield filename, path
+
+    for filename, path in iter_paths():
+        print(f'  {filename}')
+        replace_text_in_file(replacements, path)
+
+    if not DRY_RUN:
+        os.rename('PluginTemplate.sln', f'{plugin_name}.sln')
+        if os.path.isfile('PluginTemplate.sln.DotSettings.user'):
+            os.rename('PluginTemplate.sln.DotSettings.user', f'{plugin_name}.sln.DotSettings.user')
 
     print('Done.')
 

@@ -5,11 +5,11 @@ using Shared.Logging;
 
 namespace TorchPlugin
 {
-    public class TorchPluginLogger : LogFormatter, IPluginLogger
+    public class PluginLogger : LogFormatter, IPluginLogger
     {
         private readonly Logger logger;
 
-        public TorchPluginLogger(string pluginName) : base("")
+        public PluginLogger(string pluginName) : base("")
         {
             logger = LogManager.GetLogger(pluginName);
         }

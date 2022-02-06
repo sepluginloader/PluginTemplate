@@ -1,13 +1,13 @@
+#if !TORCH
 using System;
 using System.Runtime.CompilerServices;
-using Shared.Logging;
 using VRage.Utils;
 
 namespace Shared.Logging
 {
-    public class KeenPluginLogger : LogFormatter, IPluginLogger
+    public class PluginLogger : LogFormatter, IPluginLogger
     {
-        public KeenPluginLogger(string pluginName) : base($"{pluginName}: ")
+        public PluginLogger(string pluginName) : base($"{pluginName}: ")
         {
         }
 
@@ -110,3 +110,5 @@ namespace Shared.Logging
         }
     }
 }
+
+#endif

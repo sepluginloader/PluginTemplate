@@ -492,9 +492,6 @@
         <Reference Include="VRage.Mod.Io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Bin64\VRage.Mod.Io.dll</HintPath>
         </Reference>
-        <Reference Include="VRage.NativeAftermath, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Bin64\VRage.NativeAftermath.dll</HintPath>
-        </Reference>
         <Reference Include="VRage.NativeWrapper, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Bin64\VRage.NativeWrapper.dll</HintPath>
         </Reference>

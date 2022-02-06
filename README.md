@@ -16,7 +16,7 @@
 5. Open the solution in Visual Studio or Rider
 6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) 
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
-8. You can delete the `ReplaceGuidsAndRename.py` from the project
+8. Delete the `ReplaceGuidsAndRename.py` from the Shared project and the working copy folder (not needed anymore)
 9. Replace the contents of this file with the description of your plugin
 
 _You can skip steps depending on your specific targets._
@@ -25,8 +25,10 @@ _You can skip steps depending on your specific targets._
 
 ### Conditional compilation
 
-- DedicatedPlugin defines DEDICATED, TorchPlugin defines TORCH. 
-  You can use those names #if blocks to conditionally compile code in the Shared project.
+- DedicatedPlugin defines `DEDICATED`, TorchPlugin defines `TORCH`. 
+  You can use those names for conditional compilation by `#if` blocks in the Shared project.
+  For example if you want your code to compile for client and dedicated server plugins, but 
+  not for the Torch plugin, then put it into a `#if !TORCH` ... `#endif` block. 
 
 ### Shared project
 

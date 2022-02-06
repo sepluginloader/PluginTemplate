@@ -17,6 +17,6 @@ namespace TorchPlugin
 
         private bool enabled = true;
 
-        // TODO: Define your properties here
+        // TODO: Implement your config properties and define their defaults
     }
 }

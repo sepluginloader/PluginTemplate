@@ -161,7 +161,7 @@ namespace TorchPlugin
 
         private void CustomUpdate()
         {
-            throw new NotImplementedException();
+            // TODO: Put your update processing here. It is called on every simulation frame!
         }
     }
 }

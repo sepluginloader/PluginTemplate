@@ -9,7 +9,7 @@
 
 ## Create your plugin project
 
-1. Click on "Use this template" (top right corner on GitHub) and follow the wizard to create your repository
+1. Click on **Use this template** (top right corner on GitHub) and follow the wizard to create your repository
 2. Clone your repository to have a local working copy
 3. Run `ReplaceGuidsAndRename.py`, enter the name of your plugin project in `CapitalizedWords` format
 4. Edit `Edit-and-run-before-opening-solution.bat` to match your local paths, then run it
@@ -18,8 +18,6 @@
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
 8. Delete the `ReplaceGuidsAndRename.py` from the Shared project and the working copy folder (not needed anymore)
 9. Replace the contents of this file with the description of your plugin
-
-_You can skip steps depending on your specific targets._
 
 ## Remarks
 

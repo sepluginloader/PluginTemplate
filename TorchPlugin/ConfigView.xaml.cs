@@ -1,5 +1,5 @@
-using System.Windows;
 using System.Windows.Controls;
+using Shared.Plugin;
 
 namespace TorchPlugin
 {
@@ -10,14 +10,7 @@ namespace TorchPlugin
         public ConfigView()
         {
             InitializeComponent();
-            DataContext = Plugin.Config;
+            DataContext = Common.Config;
         }
-
-        private void SomeButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            // TODO: Your event handler here
-        }
-
-        // TODO: Add any custom UI interaction code for the config view here (if any)
     }
 }

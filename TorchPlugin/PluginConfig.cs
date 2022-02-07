@@ -1,5 +1,5 @@
 using System;
-using ClientPlugin.PluginTemplate.Shared.Config;
+using Shared.Config;
 using Torch;
 using Torch.Views;
 

@@ -467,7 +467,7 @@
         <Reference Include="WindowsBase" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="PluginTemplateConfigView.xaml.cs" />
+        <Compile Include="ConfigView.xaml.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="PluginConfig.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -485,7 +485,7 @@
       <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
-      <Page Include="PluginTemplateConfigView.xaml" />
+      <Page Include="ConfigView.xaml" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Import Project="..\Shared\Shared.projitems" Label="Shared" />

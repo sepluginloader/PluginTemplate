@@ -1,4 +1,4 @@
-namespace ClientPlugin.PluginTemplate.Shared.Config
+namespace Shared.Config
 {
     public interface IPluginConfig
     {

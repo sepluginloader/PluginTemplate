@@ -1,9 +1,11 @@
 using System.Windows;
+using System.Windows.Controls;
 
 namespace TorchPlugin
 {
     // ReSharper disable once UnusedType.Global
-    public partial class ConfigView
+    // ReSharper disable once RedundantExtendsListEntry
+    public partial class ConfigView : UserControl
     {
         public ConfigView()
         {

@@ -6,6 +6,8 @@ Tested on Python 3.9, should work on any recent 3.x
 
 import os
 import re
+import shutil
+
 import sys
 import uuid
 
@@ -82,6 +84,9 @@ def main():
         print('Solution:')
         yield 'PluginTemplate.sln', 'PluginTemplate.sln'
 
+        if os.path.exists('PluginTemplate.sln.DotSettings.user'):
+            yield 'PluginTemplate.sln.DotSettings.user', 'PluginTemplate.sln.DotSettings.user'
+
         for project_name in PROJECT_NAMES:
 
             print()
@@ -98,14 +103,19 @@ def main():
                         path = os.path.join(dirpath, filename)
                         yield filename, path
 
+    rename_files = []
     for filename, path in iter_paths():
         print(f'  {filename}')
         replace_text_in_file(replacements, path)
+        if 'PluginTemplate' in filename:
+            rename_files.append((filename, path))
 
     if not DRY_RUN:
-        os.rename('PluginTemplate.sln', f'{plugin_name}.sln')
-        if os.path.isfile('PluginTemplate.sln.DotSettings.user'):
-            os.rename('PluginTemplate.sln.DotSettings.user', f'{plugin_name}.sln.DotSettings.user')
+        for filename, path in rename_files:
+            dir_path = os.path.dirname(path)
+            dst_name = filename.replace('PluginTemplate', plugin_name)
+            dst_path = os.path.join(dir_path, dst_name)
+            os.rename(path, dst_path)
 
     print('Done.')
 

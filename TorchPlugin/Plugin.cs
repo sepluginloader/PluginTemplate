@@ -30,8 +30,8 @@ namespace TorchPlugin
         private static Plugin instance;
 
         // ReSharper disable once UnusedMember.Global
-        public UserControl GetControl() => control ?? (control = new ConfigView());
-        private ConfigView control;
+        public UserControl GetControl() => control ?? (control = new PluginTemplateConfigView());
+        private PluginTemplateConfigView control;
 
 
 #if USE_HARMONY

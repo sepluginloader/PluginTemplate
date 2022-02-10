@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using ClientPlugin.GUI;
 using HarmonyLib;
+using Sandbox.Graphics.GUI;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
@@ -41,7 +43,10 @@ namespace ClientPlugin
             Common.SetPlugin(this);
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
+            {
                 failed = true;
+                return;
+            }
 
             Log.Debug("Successfully loaded");
         }
@@ -111,6 +116,13 @@ namespace ClientPlugin
         private void CustomUpdate()
         {
             // TODO: Put your update code here. It is called on every simulation frame!
+        }
+
+
+        // ReSharper disable once UnusedMember.Global
+        public void OpenConfigDialog()
+        {
+            MyGuiSandbox.AddScreen(new MyPluginConfigDialog());
         }
     }
 }

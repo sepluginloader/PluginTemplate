@@ -8,6 +8,9 @@ namespace TorchPlugin
     [Serializable]
     public class PluginConfig : ViewModel, IPluginConfig
     {
+        private bool enabled = true;
+        // TODO: Implement your config fields
+
         [Display(GroupName = "General", Name = "Enable plugin", Order = 1, Description = "Enables/disables the plugin")]
         public bool Enabled
         {
@@ -15,8 +18,6 @@ namespace TorchPlugin
             set => SetValue(ref enabled, value);
         }
 
-        private bool enabled = true;
-
-        // TODO: Implement your config properties and define their defaults
+        // TODO: Encapsulate them as properties
     }
 }

@@ -6,8 +6,6 @@ Tested on Python 3.9, should work on any recent 3.x
 
 import os
 import re
-import shutil
-
 import sys
 import uuid
 

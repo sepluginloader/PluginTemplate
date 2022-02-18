@@ -527,6 +527,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="deploy.bat" />
+      <Content Include="Kill-Space-Engineers.bat" />
       <Content Include="PluginHub.xml" />
     </ItemGroup>
     <ItemGroup>

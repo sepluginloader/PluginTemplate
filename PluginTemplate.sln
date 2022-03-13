@@ -2,12 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientPlugin", "ClientPlugin\ClientPlugin.csproj", "{A061FC6C-713E-42CD-B413-151AC8A5074C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorchPlugin", "TorchPlugin\TorchPlugin.csproj", "{C889318F-9835-4814-B26E-979242CAEB0C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicatedPlugin", "DedicatedPlugin\DedicatedPlugin.csproj", "{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{C5784FE0-CF0A-4870-9DEF-7BEA8B64C01A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,17 +14,5 @@ Global
 		{A061FC6C-713E-42CD-B413-151AC8A5074C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A061FC6C-713E-42CD-B413-151AC8A5074C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A061FC6C-713E-42CD-B413-151AC8A5074C}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{C889318F-9835-4814-B26E-979242CAEB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C889318F-9835-4814-B26E-979242CAEB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C889318F-9835-4814-B26E-979242CAEB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C889318F-9835-4814-B26E-979242CAEB0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C889318F-9835-4814-B26E-979242CAEB0C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{C889318F-9835-4814-B26E-979242CAEB0C}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{FFB7FCA3-B168-43F4-8DBF-6247C0D331C8}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

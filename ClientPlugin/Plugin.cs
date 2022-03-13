@@ -3,10 +3,9 @@ using System.IO;
 using ClientPlugin.GUI;
 using HarmonyLib;
 using Sandbox.Graphics.GUI;
-using Shared.Config;
-using Shared.Logging;
-using Shared.Patches;
-using Shared.Plugin;
+using ClientPlugin.Config;
+using ClientPlugin.Logging;
+using ClientPlugin.Patches;
 using VRage.FileSystem;
 using VRage.Plugins;
 

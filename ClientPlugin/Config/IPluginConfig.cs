@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Shared.Config
+namespace ClientPlugin.Config
 {
     public interface IPluginConfig: INotifyPropertyChanged
     {

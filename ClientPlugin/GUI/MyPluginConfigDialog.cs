@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using Sandbox;
 using Sandbox.Graphics.GUI;
-using Shared.Plugin;
 using VRage;
 using VRage.Utils;
 using VRageMath;

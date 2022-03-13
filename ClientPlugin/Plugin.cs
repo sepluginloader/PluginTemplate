@@ -12,7 +12,7 @@ using VRage.Plugins;
 namespace ClientPlugin
 {
     // ReSharper disable once UnusedType.Global
-    public class Plugin : IPlugin, ICommonPlugin
+    public class Plugin : IPlugin, IDisposable
     {
         public const string Name = "PluginTemplate";
         public static Plugin Instance { get; private set; }
@@ -38,8 +38,6 @@ namespace ClientPlugin
 
             var configPath = Path.Combine(MyFileSystem.UserDataPath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
-
-            Common.SetPlugin(this);
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
             {

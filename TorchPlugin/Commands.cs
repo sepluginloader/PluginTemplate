@@ -18,7 +18,7 @@ namespace TorchPlugin
         private void RespondWithInfo()
         {
             var config = Plugin.Instance.Config;
-            Respond("PluginTemplate plugin is enabled: {Format(config.Enabled)}");
+            Respond($"PluginTemplate plugin is enabled: {Format(config.Enabled)}");
             // TODO: Respond with your current configuration values
         }
 

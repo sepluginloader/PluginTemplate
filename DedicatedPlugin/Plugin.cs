@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
 using Shared.Plugin;
 using VRage.FileSystem;
+using VRage.Game;
 using VRage.Plugins;
 
 namespace DedicatedPlugin
@@ -17,6 +19,7 @@ namespace DedicatedPlugin
         public static Plugin Instance { get; private set; }
 
         public long Tick { get; private set; }
+        private static bool failed;
 
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(Name);
@@ -25,12 +28,14 @@ namespace DedicatedPlugin
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{Name}.cfg";
 
-        private static bool initialized;
-        private static bool failed;
-
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
+#if DEBUG
+            // Allow the debugger some time to connect once the plugin assembly is loaded
+            Thread.Sleep(100);
+#endif
+
             Instance = this;
 
             Log.Info("Loading");
@@ -38,7 +43,8 @@ namespace DedicatedPlugin
             var configPath = Path.Combine(MyFileSystem.UserDataPath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
-            Common.SetPlugin(this);
+            var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
+            Common.SetPlugin(this, gameVersion, MyFileSystem.UserDataPath);
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
             {
@@ -66,14 +72,13 @@ namespace DedicatedPlugin
 
         public void Update()
         {
-            EnsureInitialized();
+            if (failed)
+                return;
+
             try
             {
-                if (!failed)
-                {
-                    CustomUpdate();
-                    Tick++;
-                }
+                CustomUpdate();
+                Tick++;
             }
             catch (Exception ex)
             {
@@ -82,35 +87,10 @@ namespace DedicatedPlugin
             }
         }
 
-        private void EnsureInitialized()
-        {
-            if (initialized || failed)
-                return;
-
-            Log.Info("Initializing");
-            try
-            {
-                Initialize();
-            }
-            catch (Exception ex)
-            {
-                Log.Critical(ex, "Failed to initialize plugin");
-                failed = true;
-                return;
-            }
-
-            Log.Debug("Successfully initialized");
-            initialized = true;
-        }
-
-        private void Initialize()
-        {
-            // TODO: Put your one time initialization code here. It is executed on first update, not on loading the plugin.
-        }
-
         private void CustomUpdate()
         {
             // TODO: Put your update code here. It is called on every simulation frame!
+            PatchHelpers.PatchUpdates();
         }
     }
 }

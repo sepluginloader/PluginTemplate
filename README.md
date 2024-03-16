@@ -21,6 +21,19 @@
 8. Delete the `ReplaceGuidsAndRename.py` from the Shared project and the working copy folder (not needed anymore)
 9. Replace the contents of this file with the description of your plugin
 10. Follow the TODO comments in the source code
+11. Look into the source code of other plugins for examples on how to patch the game
+
+You may find the source code of these plugins inspirational:
+- [Performance Improvements](https://github.com/viktor-ferenczi/performance-improvements)
+- [Multigrid Projector](https://github.com/viktor-ferenczi/multigrid-projector)
+- [Toolbar Manager](https://github.com/viktor-ferenczi/toolbar-manager)
+
+In case of questions please feel free to ask the SE plugin developer community on the
+[Plugin Loader](https://discord.gg/6ETGRU3CzR) or the [Torch](https://discord.gg/xNFpHM6V8Q) 
+Discord server in their relevant text channels. They also have dedicated channels for
+plugin ideas, should you look for a new one.
+
+_Good luck!_
 
 ## Remarks
 
@@ -52,11 +65,30 @@
   from the Plugin class and the `xaml` and `xaml.cs` files. Also remove the now unused
   `GetControl` method.
  
-- Torch plugins should not use Harmony for patching, ideally. 
-  Torch has its own patching mechanism, which is more compatible with other plugins, 
-  but less convenient to use. If you want to remove Harmony from the Torch plugin, 
-  then search for USE_HARMONY in all files, which will show you where to make changes. 
-  Also remove Lib.Harmony from the TorchPlugin project's NuGet package dependencies.
+- While you can use HarmonyLib for patching in Torch plugins, Torch has its own patching
+  mechanism, which is more compatible with other plugins, but less convenient to use. 
+  If you want to remove Harmony from the Torch plugin, then search for USE_HARMONY in all
+  files, which will show you where to make changes. Also remove Lib.Harmony from the 
+  TorchPlugin project's NuGet package dependencies. Please note then in this case you
+  must also remove all uses of Harmony from your Torch plugin code.
+
+### How to prevent the potential crash after game updates
+
+Please use the `EnsureCode` attribute on patch methods to safely skip loading the plugin
+with an error logged should the code in any of the methods patched would change as part of
+a game update. It is a good way to prevent blaming crashes on your plugin after game updates,
+so your plugin can remain safely enabled (but effectively disabled) until you have a chance
+to release an update for compatibility with the new game version. Please see the examples in
+the `Shared/Patches` folder on how to use this attribute. 
+
+The hexadecimal hash code is logged in case of a mismatch, so you can read them from the logs
+for any new method you patch, just leave the string initially empty in the `EnsureCode`
+attribute, then replace with the value from the error log line after you run your plugin
+with the patch for the first time.
+
+On Proton (Linux) this check tends to cause issues, therefore there is a configuration flag
+to turn it OFF. Setting the `SE_PLUGIN_DISABLE_METHOD_VERIFICATION` environment variable to
+any value on the player's host also disables game code verification. 
 
 ### Debugging
 
@@ -67,6 +99,12 @@
   - Other projects are unloaded, only the debugged one and Shared are loaded.
   - Debugger is attached to the running process.
   - You are debugging the code which is running (no code changes made since the build).
+- Transpiler patches will write a `harmony.log.txt` file to your `Desktop` while running `Debug`
+  builds. Never release a debug build to your users, because that would litter their desktop
+  as well.
+- To debug transpiler changes to the IL code it is most practical to generate the files
+  of the method's IL code before and after the change made, so you can just diff them.
+  Please see the transpiler example under the `Shared/Patches` folder for the details.
 
 ### Troubleshooting
 

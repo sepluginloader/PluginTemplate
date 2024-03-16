@@ -1,12 +1,12 @@
+#if !TORCH
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-#if !TORCH
-
 namespace Shared.Config
 {
-    public class PluginConfig: IPluginConfig
+    public class PluginConfig : IPluginConfig
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -30,7 +30,10 @@ namespace Shared.Config
         }
 
         private bool enabled = true;
-        // TODO: Implement your config fields
+        private bool detectCodeChanges = true;
+        // TODO: Implement your config fields here
+        // The default values here will apply to Client and Dedicated.
+        // The default values for Torch are defined in TorchPlugin.
 
         public bool Enabled
         {
@@ -38,7 +41,13 @@ namespace Shared.Config
             set => SetValue(ref enabled, value);
         }
 
-        // TODO: Encapsulate them as properties
+        public bool DetectCodeChanges
+        {
+            get => detectCodeChanges;
+            set => SetValue(ref detectCodeChanges, value);
+        }
+
+        // TODO: Encapsulate your config fields as properties here
     }
 }
 

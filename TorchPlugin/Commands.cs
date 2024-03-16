@@ -15,45 +15,37 @@ namespace TorchPlugin
             Context?.Respond(message);
         }
 
+        // TODO: Replace cmd with the name of your chat command
+        // TODO: Implement subcommands as needed
+        private void RespondWithHelp()
+        {
+            Respond("PluginTemplate commands:");
+            Respond("  !cmd help");
+            Respond("  !cmd info");
+            Respond("    Prints the current configuration settings.");
+            Respond("  !cmd enable");
+            Respond("    Enables the plugin");
+            Respond("  !cmd disable");
+            Respond("    Disables the plugin");
+            Respond("  !cmd subcmd <name> <value>");
+            Respond("    TODO Your subcommand");
+        }
+
         private void RespondWithInfo()
         {
             var config = Plugin.Instance.Config;
-            Respond($"PluginTemplate plugin is enabled: {Format(config.Enabled)}");
-            // TODO: Respond with your current configuration values
+            Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
+            // TODO: Respond with your plugin settings
+            // For example:
+            //Respond($"custom_setting: {Format(config.CustomSetting)}");
         }
 
         // Custom formatters
+
         private static string Format(bool value) => value ? "Yes" : "No";
 
-        // ReSharper disable once UnusedMember.Global
-        [Command("PluginTemplate info", "PluginTemplate: Prints the current settings")]
-        [Permission(MyPromoteLevel.None)]
-        public void Info()
-        {
-            RespondWithInfo();
-        }
+        // Custom parsers
 
-        // ReSharper disable once UnusedMember.Global
-        [Command("PluginTemplate enable", "PluginTemplate: Enables the plugin")]
-        [Permission(MyPromoteLevel.Admin)]
-        public void Enable()
-        {
-            Config.Enabled = true;
-            RespondWithInfo();
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        [Command("PluginTemplate disable", "PluginTemplate: Disables the plugin")]
-        [Permission(MyPromoteLevel.Admin)]
-        public void Disable()
-        {
-            Config.Enabled = false;
-            RespondWithInfo();
-        }
-
-        // TODO: Add your commands here
-        
-        // Helper methods
         private static bool TryParseBool(string text, out bool result)
         {
             switch (text.ToLower())
@@ -79,6 +71,52 @@ namespace TorchPlugin
 
             result = false;
             return false;
+        }
+
+        // ReSharper disable once UnusedMember.Global
+
+        [Command("cmd help", "PluginTemplate: Help")]
+        [Permission(MyPromoteLevel.None)]
+        public void Help()
+        {
+            RespondWithHelp();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("cmd info", "PluginTemplate: Prints the current settings")]
+        [Permission(MyPromoteLevel.None)]
+        public void Info()
+        {
+            RespondWithInfo();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("cmd enable", "PluginTemplate: Enables the plugin")]
+        [Permission(MyPromoteLevel.Admin)]
+        public void Enable()
+        {
+            Config.Enabled = true;
+            RespondWithInfo();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("cmd disable", "PluginTemplate: Disables the plugin")]
+        [Permission(MyPromoteLevel.Admin)]
+        public void Disable()
+        {
+            Config.Enabled = false;
+            RespondWithInfo();
+        }
+
+        // TODO: Subcommand
+        // ReSharper disable once UnusedMember.Global
+        [Command("cmd subcmd", "PluginTemplate: TODO: Subcommand")]
+        [Permission(MyPromoteLevel.Admin)]
+        public void SubCmd(string name, string value)
+        {
+            // TODO: Process command parameters (for example name and value)
+
+            RespondWithInfo();
         }
     }
 }

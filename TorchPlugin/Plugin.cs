@@ -2,8 +2,11 @@
 
 using System;
 using System.IO;
+using System.Text;
+using System.Threading;
 using System.Windows.Controls;
 using HarmonyLib;
+using Sandbox.Game;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
@@ -14,6 +17,7 @@ using Torch.API.Managers;
 using Torch.API.Plugins;
 using Torch.API.Session;
 using Torch.Session;
+using VRage.Utils;
 
 namespace TorchPlugin
 {
@@ -37,7 +41,8 @@ namespace TorchPlugin
         private ConfigView control;
 
         private TorchSessionManager sessionManager;
-        private bool Initialized => sessionManager != null;
+
+        private bool initialized;
         private bool failed;
 
         // ReSharper disable once UnusedMember.Local
@@ -48,6 +53,11 @@ namespace TorchPlugin
         {
             base.Init(torch);
 
+#if DEBUG
+            // Allow the debugger some time to connect once the plugin assembly is loaded
+            Thread.Sleep(100);
+#endif
+
             Instance = this;
 
             Log.Info("Init");
@@ -55,7 +65,9 @@ namespace TorchPlugin
             var configPath = Path.Combine(StoragePath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
-            Common.SetPlugin(this);
+            var gameVersionNumber = MyPerGameSettings.BasicGameInfo.GameVersion ?? 0;
+            var gameVersion = new StringBuilder(MyBuildNumbers.ConvertBuildNumberFromIntToString(gameVersionNumber)).ToString();
+            Common.SetPlugin(this, gameVersion, StoragePath);
 
 #if USE_HARMONY
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
@@ -67,6 +79,8 @@ namespace TorchPlugin
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
+
+            initialized = true;
         }
 
         private void SessionStateChanged(ITorchSession session, TorchSessionState newstate)
@@ -79,12 +93,10 @@ namespace TorchPlugin
 
                 case TorchSessionState.Loaded:
                     Log.Debug("Loaded");
-                    OnLoaded();
                     break;
 
                 case TorchSessionState.Unloading:
                     Log.Debug("Unloading");
-                    OnUnloading();
                     break;
 
                 case TorchSessionState.Unloaded:
@@ -95,9 +107,7 @@ namespace TorchPlugin
 
         public override void Dispose()
         {
-            Instance = null;
-
-            if (Initialized)
+            if (initialized)
             {
                 Log.Debug("Disposing");
 
@@ -107,48 +117,24 @@ namespace TorchPlugin
                 Log.Debug("Disposed");
             }
 
+            Instance = null;
+
             base.Dispose();
-        }
-
-        private void OnLoaded()
-        {
-            try
-            {
-                // TODO: Put your one time initialization here
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "OnLoaded failed");
-                failed = true;
-            }
-        }
-
-        private void OnUnloading()
-        {
-            try
-            {
-                // TODO: Make sure to save any persistent modifications here
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "OnUnloading failed");
-                failed = true;
-            }
         }
 
         public override void Update()
         {
+            if (failed)
+                return;
+
             try
             {
-                if (!failed)
-                {
-                    CustomUpdate();
-                    Tick++;
-                }
+                CustomUpdate();
+                Tick++;
             }
             catch (Exception e)
             {
-                Log.Error(e, "Update failed");
+                Log.Critical(e, "Update failed");
                 failed = true;
             }
         }
@@ -156,6 +142,7 @@ namespace TorchPlugin
         private void CustomUpdate()
         {
             // TODO: Put your update processing here. It is called on every simulation frame!
+            PatchHelpers.PatchUpdates();
         }
     }
 }

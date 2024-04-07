@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!-- TODO: Add row definitions if you start using new rows -->
         </Grid.RowDefinitions>
 

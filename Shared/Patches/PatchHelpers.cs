@@ -65,9 +65,8 @@ namespace Shared.Patches
         // Called after loading configuration, but before patching
         public static void Configure()
         {
-            // Call the Configure public static method on each of your
-            // patch classes which needs one time configuration when
-            // the plugins is loaded (no world is loaded yet)
+            // Call the Configure public static method on each of your patch
+            // classes requiring one-time configuration (no world is loaded yet)
             // For example:
             //MyPatch.Configure();
         }

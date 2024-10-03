@@ -8,6 +8,7 @@
 - [Python 3.x](https://python.org) (tested with 3.9)
 - [Plugin Loader](https://github.com/sepluginloader)
 - [Torch Server](https://torchapi.com/) in `C:\Torch`, run `Torch.Server.exe` once to prepare
+- [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481) 
 
 ## Create your plugin project
 

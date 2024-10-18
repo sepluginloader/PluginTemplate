@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\EnsureCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Hashing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TranspilerHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\WineDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\Edit-and-run-before-opening-solution.bat">

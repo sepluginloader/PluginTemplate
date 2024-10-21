@@ -496,6 +496,14 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="GUI\Constructor.cs" />
+        <Compile Include="GUI\Elements\Base.cs" />
+        <Compile Include="GUI\Elements\Checkbox.cs" />
+        <Compile Include="GUI\Elements\Dropdown.cs" />
+        <Compile Include="GUI\Elements\Partition.cs" />
+        <Compile Include="GUI\Elements\Slider.cs" />
+        <Compile Include="GUI\Elements\Textbox.cs" />
+        <Compile Include="GUI\Interface.cs" />
         <Compile Include="GUI\PluginConfigDialog.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

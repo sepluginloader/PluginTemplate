@@ -103,6 +103,27 @@ namespace ClientPlugin.Settings
                 }
             }
 
+            foreach (var methodInfo in typeof(Config).GetMethods())
+            {
+                string name = methodInfo.Name;
+                Delegate method = methodInfo.CreateDelegate(typeof(Config), Config.Current);
+
+                foreach (var attribute in methodInfo.GetCustomAttributes())
+                {
+                    if (attribute is IElement element)
+                    {
+                        var info = new AttributeInfo()
+                        {
+                            ElementType = element,
+                            Name = name,
+                            Getter = () => method,
+                            Setter = null
+                        };
+                        config.Add(info);
+                    }
+                }
+            }
+
             return config;
         }
     }

@@ -1,3 +1,4 @@
+using ClientPlugin.Settings;
 using ClientPlugin.Settings.Elements;
 using Sandbox.Graphics.GUI;
 using System;
@@ -7,7 +8,7 @@ using VRage.Input;
 using VRageMath;
 
 
-namespace ClientPlugin.Settings
+namespace ClientPlugin
 {
     public enum DropDownEnum
     {

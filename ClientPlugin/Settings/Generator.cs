@@ -91,6 +91,14 @@ namespace ClientPlugin.Settings
                 {
                     if (attribute is IElement element)
                     {
+                        if (!element.SupportedTypes.Contains(attribute.GetType()))
+                        {
+                            throw new Exception(
+                                $"Element {element.GetType().Name} for {name} expects "
+                                + $"{string.Join("/", element.SupportedTypes)} but "
+                                + $"recieved {attribute.GetType().Name}");
+                        }
+
                         var info = new AttributeInfo()
                         {
                             ElementType = element,
@@ -112,6 +120,14 @@ namespace ClientPlugin.Settings
                 {
                     if (attribute is IElement element)
                     {
+                        if (!element.SupportedTypes.Contains(attribute.GetType()))
+                        {
+                            throw new Exception(
+                                $"Element {element.GetType().Name} for {name} expects "
+                                + $"{string.Join("/", element.SupportedTypes)} but "
+                                + $"recieved {attribute.GetType().Name}");
+                        }
+
                         var info = new AttributeInfo()
                         {
                             ElementType = element,

@@ -64,5 +64,10 @@ namespace ClientPlugin.Settings.Elements
                 slider,
             };
         }
+        public List<Type> SupportedTypes { get; } = new List<Type>()
+        {
+            typeof(float),
+            typeof(int),
+        };
     }
 }

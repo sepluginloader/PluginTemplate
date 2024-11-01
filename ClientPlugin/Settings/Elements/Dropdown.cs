@@ -9,7 +9,7 @@ namespace ClientPlugin.Settings.Elements
     {
         public readonly int VisibleRows;
         public readonly string Description;
-        
+
         private static string UnCamelCase(string str)
         {
             return Regex.Replace(
@@ -60,5 +60,9 @@ namespace ClientPlugin.Settings.Elements
                 dropdown,
             };
         }
+        public List<Type> SupportedTypes { get; } = new List<Type>()
+        {
+            typeof(Enum)
+        };
     }
 }

@@ -24,5 +24,9 @@ namespace ClientPlugin.Settings.Elements
                 textBox,
             };
         }
+        public List<Type> SupportedTypes { get; } = new List<Type>()
+        {
+            typeof(string)
+        };
     }
 }

@@ -54,6 +54,11 @@ namespace ClientPlugin.Settings.Elements
             return new List<MyGuiControlBase>() { label, button };
         }
 
+        public List<Type> SupportedTypes { get; } = new List<Type>()
+        {
+            typeof(MyKeys)
+        };
+
         private class ControlButtonData
         {
             public readonly MyControl Control;

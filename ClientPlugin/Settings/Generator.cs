@@ -9,11 +9,19 @@ using System.Text.RegularExpressions;
 
 namespace ClientPlugin.Settings
 {
+    internal class AttributeInfo
+    {
+        public IElement ElementType;
+        public string Name;
+        public Func<object> Getter;
+        public Action<object> Setter;
+    }
+
     internal class Generator
     {
         public readonly string Name;
 
-        private readonly List<Tuple<IElement, string, Func<object>, Action<object>>> Attributes;
+        private readonly List<AttributeInfo> Attributes;
         private List<List<MyGuiControlBase>> Controls;
         public Screen Dialog { get; private set; }
         public Layout ActiveLayout { get; private set; }
@@ -62,15 +70,15 @@ namespace ClientPlugin.Settings
         {
             Controls = new List<List<MyGuiControlBase>>();
 
-            foreach (var item in Attributes)
+            foreach (AttributeInfo info in Attributes)
             {
-                Controls.Add(item.Item1.GetElements(item.Item2, item.Item3, item.Item4));
+                Controls.Add(info.ElementType.GetElements(info.Name, info.Getter, info.Setter));
             }
         }
 
-        private static List<Tuple<IElement, string, Func<object>, Action<object>>> ExtractAttributes()
+        private static List<AttributeInfo> ExtractAttributes()
         {
-            var config = new List<Tuple<IElement, string, Func<object>, Action<object>>>();
+            var config = new List<AttributeInfo>();
 
             foreach (var propertyInfo in typeof(Config).GetProperties())
             {
@@ -83,7 +91,14 @@ namespace ClientPlugin.Settings
                 {
                     if (attribute is IElement element)
                     {
-                        config.Add(Tuple.Create(element, UnCamelCase(name), (Func<object>)getter, (Action<object>)setter));
+                        var info = new AttributeInfo()
+                        {
+                            ElementType = element,
+                            Name = name,
+                            Getter = getter,
+                            Setter = setter
+                        };
+                        config.Add(info);
                     }
                 }
             }

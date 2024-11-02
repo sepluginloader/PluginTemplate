@@ -39,57 +39,65 @@ namespace ClientPlugin
         }
 
         // ----- Build your UI -----
-        public readonly string Title = "Config";
+        public readonly string Title = "Config Demo";
 
-        private MyKeys _testKeybind = MyKeys.None;
-        [Keybind("Test Keybind Tooltip")]
-        public MyKeys TestKeybind
+        private MyKeys _keybind = MyKeys.None;
+        [Keybind("Keybind Tooltip")]
+        public MyKeys Keybind
         {
-            get => _testKeybind;
-            set => SetField(ref _testKeybind, value);
+            get => _keybind;
+            set => SetField(ref _keybind, value);
         }
 
-        public string _textInput = "Default Text";
-        [Textbox("Test Text Input Tooltip")]
-        public string TextInput
+        public string _text = "Default Text";
+        [Textbox("Textbox Tooltip")]
+        public string Text
         {
-            get => _textInput;
-            set => SetField(ref _textInput, value);
+            get => _text;
+            set => SetField(ref _text, value);
         }
 
-        public DropDownEnum _dropdownTest = DropDownEnum.Alpha;
-        [Dropdown(description: "Test Dropdown Tooltip")]
-        public DropDownEnum DropdownTest
+        public DropDownEnum _dropdown = DropDownEnum.Alpha;
+        [Dropdown(description: "Dropdown Tooltip")]
+        public DropDownEnum Dropdown
         {
-            get => _dropdownTest;
-            set => SetField(ref _dropdownTest, value);
+            get => _dropdown;
+            set => SetField(ref _dropdown, value);
         }
 
-        public float _sliderFloatTest = 0.1f;
-        [Slider(-5f, 4.5f, 0.5f, SliderAttribute.SliderType.Float, description: "Test Float Slider Tooltip")]
-        public float SliderFloatTest
+        public float _number = 0.1f;
+        [Slider(-5f, 4.5f, 0.5f, SliderAttribute.SliderType.Float, description: "Float Slider Tooltip")]
+        public float Number
         {
-            get => _sliderFloatTest;
-            set => SetField(ref _sliderFloatTest, value);
+            get => _number;
+            set => SetField(ref _number, value);
         }
 
-        public int _sliderIntTest = 2;
-        [Slider(-1f, 10f, 1f, SliderAttribute.SliderType.Integer, description: "Test Int Slider Tooltip")]
-        public int SliderIntTest
+        public int _integer = 2;
+        [Slider(-1f, 10f, 1f, SliderAttribute.SliderType.Integer, description: "Integer Slider Tooltip")]
+        public int Integer
         {
-            get => _sliderIntTest;
-            set => SetField(ref _sliderIntTest, value);
+            get => _integer;
+            set => SetField(ref _integer, value);
         }
 
-        [Button("Test Button Tooltip")]
-        public void TestButton()
+        public bool _toggle = true;
+        [Checkbox(description: "Checkbox Tooltip")]
+        public bool Toggle
+        {
+            get => _toggle;
+            set => SetField(ref _toggle, value);
+        }
+
+        [Button("Button Tooltip")]
+        public void Button()
         {
             MyGuiSandbox.AddScreen(MyGuiSandbox.CreateMessageBox(
                 MyMessageBoxStyleEnum.Info,
                 buttonType: MyMessageBoxButtonsType.OK,
                 messageText: new StringBuilder("You clicked me!"),
                 messageCaption: new StringBuilder("Custom Button Function"),
-                size: new Vector2(0.6f, 0.7f)
+                size: new Vector2(0.6f, 0.5f)
             ));
         }
     }

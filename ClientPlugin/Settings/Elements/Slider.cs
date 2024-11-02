@@ -1,9 +1,9 @@
-﻿using Sandbox.Graphics.GUI;
+﻿using Sandbox;
+using Sandbox.Graphics.GUI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using VRage.Utils;
 
 namespace ClientPlugin.Settings.Elements
 {
@@ -32,18 +32,45 @@ namespace ClientPlugin.Settings.Elements
 
         public List<MyGuiControlBase> GetElements(string name, Func<object> propertyGetter, Action<object> propertySetter)
         {
+            var label = new MyGuiControlLabel();
+
             void ValueUpdate(MyGuiControlSlider element)
             {
                 switch (Type)
                 {
                     case SliderType.Integer:
-                        propertySetter(Convert.ToInt32(element.Value));
+                        int intValue = Convert.ToInt32(element.Value);
+                        propertySetter(intValue);
+                        label.Text = intValue.ToString();
                         break;
+
                     case SliderType.Float:
                         propertySetter(element.Value);
+                        label.Text = MyValueFormatter.GetFormatedFloat(element.Value, element.LabelDecimalPlaces);
                         break;
                 }
+            }
 
+            bool SpecifyValue(MyGuiControlSlider element)
+            {
+                MyGuiScreenDialogAmount screen = new MyGuiScreenDialogAmount(
+                    Min,
+                    Max,
+                    MyCommonTexts.DialogAmount_SetValueCaption,
+                    defaultAmount: Convert.ToSingle(propertyGetter()),
+                    parseAsInteger: Type == SliderType.Integer,
+                    backgroundTransition: MySandboxGame.Config.UIBkOpacity,
+                    guiTransition: MySandboxGame.Config.UIOpacity);
+
+                screen.OnConfirmed += (value) => element.Value = value;
+
+                // Much needed visual change requires reflection due to private types
+                typeof(MyGuiScreenBase)
+                    .GetField("m_canHideOthers", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .SetValue(screen, true);
+
+                MyGuiSandbox.AddScreen(screen);
+                return true;
             }
 
             var slider = new MyGuiControlSlider(
@@ -51,19 +78,24 @@ namespace ClientPlugin.Settings.Elements
                 defaultValue: Convert.ToSingle(propertyGetter()),
                 minValue: Min,
                 maxValue: Max,
-                showLabel: false,
                 intValue: Type == SliderType.Integer)
             {
                 MinimumStepOverride = Step,
             };
+
             slider.ValueChanged += ValueUpdate;
+            slider.SliderSetValueManual = SpecifyValue;
+
+            ValueUpdate(slider);
 
             return new List<MyGuiControlBase>()
             {
                 new MyGuiControlLabel(text: name),
+                label,
                 slider,
             };
         }
+
         public List<Type> SupportedTypes { get; } = new List<Type>()
         {
             typeof(float),

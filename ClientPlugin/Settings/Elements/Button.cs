@@ -1,7 +1,6 @@
 ﻿using Sandbox.Graphics.GUI;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 namespace ClientPlugin.Settings.Elements
@@ -24,7 +23,7 @@ namespace ClientPlugin.Settings.Elements
         }
         public List<Type> SupportedTypes { get; } = new List<Type>()
         {
-            typeof(MethodInfo)
+            typeof(Delegate)
         };
     }
 }

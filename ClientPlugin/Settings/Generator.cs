@@ -3,6 +3,8 @@ using ClientPlugin.Settings.Layouts;
 using Sandbox.Graphics.GUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -37,6 +39,21 @@ namespace ClientPlugin.Settings
                 @"(\p{Ll})(\P{Ll})",
                 "$1 $2"
             );
+        }
+
+        private static bool validateType(Type type, List<Type> typesList)
+        {
+            return typesList.Any(t => t.IsAssignableFrom(type));
+        }
+
+        private static Delegate getDelegate(MethodInfo methodInfo)
+        {
+            // Reconstruct the type
+            Type[] methodArgs = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
+            Type type = Expression.GetDelegateType(methodArgs.Concat(new[] { methodInfo.ReturnType }).ToArray());
+
+            // Create a delegate
+            return Delegate.CreateDelegate(type, null, methodInfo);
         }
 
         public Generator()
@@ -91,12 +108,12 @@ namespace ClientPlugin.Settings
                 {
                     if (attribute is IElement element)
                     {
-                        if (!element.SupportedTypes.Contains(attribute.GetType()))
+                        if (!validateType(propertyInfo.PropertyType, element.SupportedTypes))
                         {
                             throw new Exception(
                                 $"Element {element.GetType().Name} for {name} expects "
                                 + $"{string.Join("/", element.SupportedTypes)} but "
-                                + $"recieved {attribute.GetType().Name}");
+                                + $"recieved {propertyInfo.PropertyType.FullName}");
                         }
 
                         var info = new AttributeInfo()
@@ -114,18 +131,18 @@ namespace ClientPlugin.Settings
             foreach (var methodInfo in typeof(Config).GetMethods())
             {
                 string name = methodInfo.Name;
-                Delegate method = methodInfo.CreateDelegate(typeof(Config), Config.Current);
+                Delegate method = getDelegate(methodInfo);
 
                 foreach (var attribute in methodInfo.GetCustomAttributes())
                 {
                     if (attribute is IElement element)
                     {
-                        if (!element.SupportedTypes.Contains(attribute.GetType()))
+                        if (!validateType(typeof(Delegate), element.SupportedTypes))
                         {
                             throw new Exception(
                                 $"Element {element.GetType().Name} for {name} expects "
                                 + $"{string.Join("/", element.SupportedTypes)} but "
-                                + $"recieved {attribute.GetType().Name}");
+                                + $"recieved {typeof(Delegate).FullName}");
                         }
 
                         var info = new AttributeInfo()

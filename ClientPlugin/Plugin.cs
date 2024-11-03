@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using ClientPlugin.GUI;
+using ClientPlugin.Settings;
+using ClientPlugin.Settings.Layouts;
 using HarmonyLib;
 using Sandbox.Graphics.GUI;
 using Shared.Config;
@@ -19,7 +20,7 @@ namespace ClientPlugin
     {
         public const string Name = "PluginTemplate";
         public static Plugin Instance { get; private set; }
-
+        private Generator ConfigGenerator;
         public long Tick { get; private set; }
         private static bool failed;
 
@@ -39,6 +40,7 @@ namespace ClientPlugin
 #endif
 
             Instance = this;
+            Instance.ConfigGenerator = new Generator();
 
             Log.Info("Loading");
 
@@ -98,7 +100,8 @@ namespace ClientPlugin
         // ReSharper disable once UnusedMember.Global
         public void OpenConfigDialog()
         {
-            MyGuiSandbox.AddScreen(new PluginConfigDialog());
+            Instance.ConfigGenerator.SetLayout<Simple>();
+            MyGuiSandbox.AddScreen(Instance.ConfigGenerator.Dialog);
         }
     }
 }

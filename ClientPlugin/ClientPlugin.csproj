@@ -496,7 +496,20 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="GUI\PluginConfigDialog.cs" />
+        <Compile Include="Settings\Elements\Button.cs" />
+        <Compile Include="Settings\Elements\Dropdown.cs" />
+        <Compile Include="Settings\Elements\Element.cs" />
+        <Compile Include="Settings\Elements\Keybind.cs" />
+        <Compile Include="Settings\Elements\Slider.cs" />
+        <Compile Include="Settings\Elements\Textbox.cs" />
+        <Compile Include="Settings\Generator.cs" />
+        <Compile Include="Settings\Layouts\Layout.cs" />
+        <Compile Include="Settings\Layouts\None.cs" />
+        <Compile Include="Settings\Layouts\Simple.cs" />
+        <Compile Include="Settings\Screen.cs" />
+        <Compile Include="Settings\Storage.cs" />
+        <Compile Include="Config.cs" />
+        <Compile Include="Settings\Elements\Checkbox.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

@@ -36,10 +36,7 @@ namespace ClientPlugin.Settings.Elements
                 MyStringId.GetOrCompute(name),
                 MyGuiControlTypeEnum.General,
                 null,
-                PropertyGetter(),
-                MyStringId.GetOrCompute(Description),
-                null,
-                MyStringId.GetOrCompute(Description));
+                PropertyGetter());
 
             StringBuilder output = null;
             control.AppendBoundButtonNames(ref output, MyGuiInputDeviceEnum.Keyboard);
@@ -48,7 +45,8 @@ namespace ClientPlugin.Settings.Elements
             var button = new MyGuiControlButton(
                 text: output,
                 onButtonClick: OnRebindClick,
-                onSecondaryButtonClick: OnUnbindClick)
+                onSecondaryButtonClick: OnUnbindClick,
+                toolTip: Description)
             {
                 VisualStyle = MyGuiControlButtonStyleEnum.ControlSetting,
                 UserData = new ControlButtonData(control, MyGuiInputDeviceEnum.Keyboard),

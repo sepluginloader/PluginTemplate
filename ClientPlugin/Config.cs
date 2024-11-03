@@ -42,7 +42,7 @@ namespace ClientPlugin
         public readonly string Title = "Config Demo";
 
         private MyKeys _keybind = MyKeys.None;
-        [Keybind("Keybind Tooltip")]
+        [Keybind(description: "Keybind Tooltip")]
         public MyKeys Keybind
         {
             get => _keybind;
@@ -50,7 +50,7 @@ namespace ClientPlugin
         }
 
         public string _text = "Default Text";
-        [Textbox("Textbox Tooltip")]
+        [Textbox(description: "Textbox Tooltip")]
         public string Text
         {
             get => _text;
@@ -89,7 +89,7 @@ namespace ClientPlugin
             set => SetField(ref _toggle, value);
         }
 
-        [Button("Button Tooltip")]
+        [Button(description: "Button Tooltip")]
         public void Button()
         {
             MyGuiSandbox.AddScreen(MyGuiSandbox.CreateMessageBox(

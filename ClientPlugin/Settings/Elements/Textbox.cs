@@ -17,6 +17,7 @@ namespace ClientPlugin.Settings.Elements
         {
             var textBox = new MyGuiControlTextbox(defaultText: (string)propertyGetter());
             textBox.TextChanged += (box)=>propertySetter(box.Text);
+            textBox.SetToolTip(Description);
 
             return new List<MyGuiControlBase>()
             {

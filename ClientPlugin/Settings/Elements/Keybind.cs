@@ -45,7 +45,10 @@ namespace ClientPlugin.Settings.Elements
             control.AppendBoundButtonNames(ref output, MyGuiInputDeviceEnum.Keyboard);
             MyControl.AppendUnknownTextIfNeeded(ref output, MyTexts.GetString(MyCommonTexts.UnknownControl_None));
 
-            var button = new MyGuiControlButton(text: output, onButtonClick: OnRebindClick)
+            var button = new MyGuiControlButton(
+                text: output,
+                onButtonClick: OnRebindClick,
+                onSecondaryButtonClick: OnUnbindClick)
             {
                 VisualStyle = MyGuiControlButtonStyleEnum.ControlSetting,
                 UserData = new ControlButtonData(control, MyGuiInputDeviceEnum.Keyboard),
@@ -97,6 +100,32 @@ namespace ClientPlugin.Settings.Elements
 
             editBindingDialog.Closed += (s, isUnloading) => StoreControl(button);
             MyGuiSandbox.AddScreen(editBindingDialog);
+        }
+
+        private void OnUnbindClick(MyGuiControlButton button)
+        {
+            void Callback(MyGuiScreenMessageBox.ResultEnum result)
+            {
+                if (result == MyGuiScreenMessageBox.ResultEnum.NO)
+                    return;
+
+                var userData = (ControlButtonData)button.UserData;
+                userData.Control.SetControl(userData.Device, MyKeys.None);
+
+                StoreControl(button);
+            }
+
+            MyGuiScreenBase alert = MyGuiSandbox.CreateMessageBox(
+                MyMessageBoxStyleEnum.Info,
+                buttonType: MyMessageBoxButtonsType.YES_NO,
+                messageText: new StringBuilder("Are you sure?"),
+                messageCaption: new StringBuilder("UNBIND CONTROL"),
+                yesButtonText: MyStringId.GetOrCompute("Confirm"),
+                noButtonText: MyStringId.GetOrCompute("Cancel"),
+                callback: Callback
+            );
+
+            MyGuiSandbox.AddScreen(alert);
         }
 
         private void StoreControl(MyGuiControlButton button)

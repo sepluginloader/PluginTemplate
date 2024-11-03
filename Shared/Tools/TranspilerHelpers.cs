@@ -17,6 +17,8 @@ namespace Shared.Tools
     // https://github.com/viktor-ferenczi/performance-improvements
     public static class TranspilerHelpers
     {
+        private static readonly int DotNetMajorVersion = Environment.Version.Major; 
+        
         public delegate bool OpcodePredicate(OpCode opcode);
 
         public delegate bool CodeInstructionPredicate(CodeInstruction ci);
@@ -186,12 +188,13 @@ namespace Shared.Tools
             var dir = Path.GetDirectoryName(callerFilePath);
             Debug.Assert(dir != null);
 
-            const string expectedMemberNameSuffix = "Transpiler";
-            Debug.Assert(callerMemberName.Length > expectedMemberNameSuffix.Length);
-            Debug.Assert(callerMemberName.EndsWith(expectedMemberNameSuffix));
-            var name = callerMemberName.Substring(0, callerMemberName.Length - expectedMemberNameSuffix.Length);
-
-            var path = Path.Combine(dir, $"{name}.{suffix}.il");
+            var callerFileName = Path.GetFileName(callerFilePath);
+            if (callerFileName.ToLower().EndsWith(".cs"))
+            {
+                callerFileName = callerFileName.Substring(0, callerFileName.Length - 3);
+            }
+            
+            var path = Path.Combine(dir, $"{callerFileName}.{callerMemberName}.Net{DotNetMajorVersion}.{suffix}.il");
 
             File.WriteAllText(path, text);
         }

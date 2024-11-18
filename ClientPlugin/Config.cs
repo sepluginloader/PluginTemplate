@@ -42,7 +42,7 @@ namespace ClientPlugin
         public readonly string Title = "Config Demo";
 
         private MyKeys _keybind = MyKeys.None;
-        [Keybind(description: "Keybind Tooltip")]
+        [Keybind(description: "Keybind Tooltip - Unbind by right clicking the button")]
         public MyKeys Keybind
         {
             get => _keybind;

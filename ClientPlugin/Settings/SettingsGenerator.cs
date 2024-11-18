@@ -19,13 +19,13 @@ namespace ClientPlugin.Settings
         public Action<object> Setter;
     }
 
-    internal class Generator
+    internal class SettingsGenerator
     {
         public readonly string Name;
 
         private readonly List<AttributeInfo> Attributes;
         private List<List<MyGuiControlBase>> Controls;
-        public Screen Dialog { get; private set; }
+        public SettingsScreen Dialog { get; private set; }
         public Layout ActiveLayout { get; private set; }
 
         private static string UnCamelCase(string str)
@@ -56,12 +56,12 @@ namespace ClientPlugin.Settings
             return Delegate.CreateDelegate(type, null, methodInfo);
         }
 
-        public Generator()
+        public SettingsGenerator()
         {
             Attributes = ExtractAttributes();
             Name = Config.Current.Title;
             ActiveLayout = new Layouts.None(()=>Controls);
-            Dialog = new Screen(Name, OnRecreateControls, size: ActiveLayout.ScreenSize);
+            Dialog = new SettingsScreen(Name, OnRecreateControls, size: ActiveLayout.ScreenSize);
         }
 
         private List<MyGuiControlBase> OnRecreateControls()

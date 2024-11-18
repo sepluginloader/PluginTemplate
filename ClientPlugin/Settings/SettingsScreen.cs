@@ -2,19 +2,18 @@
 using Sandbox.Graphics.GUI;
 using System;
 using System.Collections.Generic;
-using System.Security;
 using VRageMath;
 
 namespace ClientPlugin.Settings
 {
-    internal class Screen : MyGuiScreenBase
+    internal class SettingsScreen : MyGuiScreenBase
     {
         public readonly string FriendlyName;
         public Func<List<MyGuiControlBase>> GetControls;
 
         public override string GetFriendlyName() => FriendlyName;
 
-        public Screen(
+        public SettingsScreen(
             string friendlyName,
             Func<List<MyGuiControlBase>> getControls,
             Vector2? position = null,
@@ -54,7 +53,7 @@ namespace ClientPlugin.Settings
 
         public override void OnRemoved()
         {
-            Storage.Save(Config.Current);
+            ConfigStorage.Save(Config.Current);
             base.OnRemoved();
         }
 

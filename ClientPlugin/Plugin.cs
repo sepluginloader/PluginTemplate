@@ -20,7 +20,7 @@ namespace ClientPlugin
     {
         public const string Name = "PluginTemplate";
         public static Plugin Instance { get; private set; }
-        private Generator ConfigGenerator;
+        private SettingsGenerator settingsGenerator;
         public long Tick { get; private set; }
         private static bool failed;
 
@@ -40,7 +40,7 @@ namespace ClientPlugin
 #endif
 
             Instance = this;
-            Instance.ConfigGenerator = new Generator();
+            Instance.settingsGenerator = new SettingsGenerator();
 
             Log.Info("Loading");
 
@@ -100,8 +100,8 @@ namespace ClientPlugin
         // ReSharper disable once UnusedMember.Global
         public void OpenConfigDialog()
         {
-            Instance.ConfigGenerator.SetLayout<Simple>();
-            MyGuiSandbox.AddScreen(Instance.ConfigGenerator.Dialog);
+            Instance.settingsGenerator.SetLayout<Simple>();
+            MyGuiSandbox.AddScreen(Instance.settingsGenerator.Dialog);
         }
     }
 }

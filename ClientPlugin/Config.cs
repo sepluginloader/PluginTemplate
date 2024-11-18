@@ -23,7 +23,7 @@ namespace ClientPlugin
     public class Config : INotifyPropertyChanged
     {
         public static readonly Config Default = new Config();
-        public static readonly Config Current = Storage.Load();
+        public static readonly Config Current = ConfigStorage.Load();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

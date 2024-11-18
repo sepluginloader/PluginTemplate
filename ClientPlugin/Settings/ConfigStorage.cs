@@ -6,7 +6,7 @@ using VRage.Utils;
 
 namespace ClientPlugin.Settings
 {
-    public static class Storage
+    public static class ConfigStorage
     {
         private static readonly string ConfigFileName = string.Concat(Plugin.Name, ".cfg");
         private static string ConfigFilePath => Path.Combine(MyFileSystem.UserDataPath, "Storage", ConfigFileName);

@@ -19,20 +19,22 @@ namespace ClientPlugin.Settings.Elements
         public readonly float Max;
         public readonly float Step;
         public readonly SliderType Type;
+        public readonly string Label;
         public readonly string Description;
 
-        public SliderAttribute(float min, float max, float step = 1f, SliderType type = SliderType.Float, string description = null)
+        public SliderAttribute(float min, float max, float step = 1f, SliderType type = SliderType.Float, string label = null, string description = null)
         {
             Min = min;
             Max = max;
             Step = step;
             Type = type;
+            Label = label;
             Description = description;
         }
 
         public List<MyGuiControlBase> GetElements(string name, Func<object> propertyGetter, Action<object> propertySetter)
         {
-            var label = new MyGuiControlLabel();
+            var valueLabel = new MyGuiControlLabel();
 
             void ValueUpdate(MyGuiControlSlider element)
             {
@@ -41,12 +43,12 @@ namespace ClientPlugin.Settings.Elements
                     case SliderType.Integer:
                         int intValue = Convert.ToInt32(element.Value);
                         propertySetter(intValue);
-                        label.Text = intValue.ToString();
+                        valueLabel.Text = intValue.ToString();
                         break;
 
                     case SliderType.Float:
                         propertySetter(element.Value);
-                        label.Text = MyValueFormatter.GetFormatedFloat(element.Value, element.LabelDecimalPlaces);
+                        valueLabel.Text = MyValueFormatter.GetFormatedFloat(element.Value, element.LabelDecimalPlaces);
                         break;
                 }
             }
@@ -88,10 +90,11 @@ namespace ClientPlugin.Settings.Elements
 
             ValueUpdate(slider);
 
+            var label = Tools.GetLabelOrDefault(name, Label);
             return new List<MyGuiControlBase>()
             {
-                new MyGuiControlLabel(text: name),
-                label,
+                new MyGuiControlLabel(text: label),
+                valueLabel,
                 slider,
             };
         }

@@ -8,6 +8,7 @@ namespace ClientPlugin.Settings.Elements
     internal class DropdownAttribute : Attribute, IElement
     {
         public readonly int VisibleRows;
+        public readonly string Label;
         public readonly string Description;
 
         private static string UnCamelCase(string str)
@@ -23,9 +24,10 @@ namespace ClientPlugin.Settings.Elements
             );
         }
 
-        public DropdownAttribute(int visibleRows = 20, string description = null)
+        public DropdownAttribute(int visibleRows = 20, string label = null, string description = null)
         {
             VisibleRows = visibleRows;
+            Label = label;
             Description = description;
         }
 
@@ -54,9 +56,10 @@ namespace ClientPlugin.Settings.Elements
             dropdown.ItemSelected += OnItemSelect;
             dropdown.SelectItemByIndex(Convert.ToInt32(selectedEnum));
 
+            var label = Tools.GetLabelOrDefault(name, Label);
             return new List<MyGuiControlBase>()
             {
-                new MyGuiControlLabel(text: name),
+                new MyGuiControlLabel(text: label),
                 dropdown,
             };
         }

@@ -14,13 +14,15 @@ namespace ClientPlugin.Settings.Elements
 {
     internal class KeybindAttribute : Attribute, IElement
     {
+        public readonly string Label;
         public readonly string Description;
 
         public Func<MyKeys> PropertyGetter;
         public Action<MyKeys> PropertySetter;
 
-        public KeybindAttribute(string description = null)
+        public KeybindAttribute(string label = null, string description = null)
         {
+            Label = label;
             Description = description;
         }
 
@@ -29,7 +31,7 @@ namespace ClientPlugin.Settings.Elements
             PropertyGetter = ()=>(MyKeys)propertyGetter();
             PropertySetter = (MyKeys key)=>propertySetter(key);
 
-            var label = new MyGuiControlLabel(text: name);
+            var label = new MyGuiControlLabel(text: Tools.GetLabelOrDefault(name, Label));
 
             var control = new MyControl(
                 MyStringId.GetOrCompute($"{name.Replace(" ", "")}Keybind"),

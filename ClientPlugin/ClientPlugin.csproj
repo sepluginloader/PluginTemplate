@@ -502,6 +502,7 @@
         <Compile Include="Settings\Elements\Keybind.cs" />
         <Compile Include="Settings\Elements\Slider.cs" />
         <Compile Include="Settings\Elements\Textbox.cs" />
+        <Compile Include="Settings\Elements\Tools.cs" />
         <Compile Include="Settings\SettingsGenerator.cs" />
         <Compile Include="Settings\Layouts\Layout.cs" />
         <Compile Include="Settings\Layouts\None.cs" />

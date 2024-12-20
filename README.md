@@ -38,6 +38,20 @@ _Good luck!_
 
 ## Remarks
 
+### Plugin configuration
+
+You can have a nice configuration dialog with little effort in the game client.
+Customize the `Config` class in the `ClientPlugin` project, just follow the examples.
+It supports many different data types, including key binding. Once you have more
+options than can fit on the screen the dialog will have a vertical scrollbar.
+
+![Example config dialog](Doc/ConfigDialogExample.png "Example config dialog")
+
+The server plugin configuration works differently, please see the `Config` folder
+of the `Shared` project for that. Torch plugins also have a XAML descriptor for
+their configuration. The client side `Config` class is not integrated with the
+server side configuration, currently.
+
 ### Conditional compilation
 
 - DedicatedPlugin defines `DEDICATED`, TorchPlugin defines `TORCH`. 

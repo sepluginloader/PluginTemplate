@@ -1,6 +1,7 @@
 ﻿using Sandbox.Graphics.GUI;
 using System;
 using System.Collections.Generic;
+using ClientPlugin.Settings.Elements;
 using VRageMath;
 
 namespace ClientPlugin.Settings.Layouts
@@ -10,14 +11,14 @@ namespace ClientPlugin.Settings.Layouts
         /// <summary>
         /// Size of the UI screen this layout is responsible for.
         /// </summary>
-        public abstract Vector2 ScreenSize { get; }
+        public abstract Vector2 SettingsPanelSize { get; }
 
         /// <summary>
         /// Call this to recieve a list of rows of controls.
         /// </summary>
-        protected readonly Func<List<List<MyGuiControlBase>>> GetControls;
+        protected readonly Func<List<List<Control>>> GetControls;
 
-        public Layout(Func<List<List<MyGuiControlBase>>> getControls)
+        public Layout(Func<List<List<Control>>> getControls)
         {
             GetControls = getControls;
         }

@@ -24,7 +24,7 @@ namespace ClientPlugin.Settings
         public readonly string Name;
 
         private readonly List<AttributeInfo> Attributes;
-        private List<List<MyGuiControlBase>> Controls;
+        private List<List<Control>> Controls;
         public SettingsScreen Dialog { get; private set; }
         public Layout ActiveLayout { get; private set; }
 
@@ -61,7 +61,7 @@ namespace ClientPlugin.Settings
             Attributes = ExtractAttributes();
             Name = Config.Current.Title;
             ActiveLayout = new Layouts.None(()=>Controls);
-            Dialog = new SettingsScreen(Name, OnRecreateControls, size: ActiveLayout.ScreenSize);
+            Dialog = new SettingsScreen(Name, OnRecreateControls, size: ActiveLayout.SettingsPanelSize);
         }
 
         private List<MyGuiControlBase> OnRecreateControls()
@@ -74,8 +74,8 @@ namespace ClientPlugin.Settings
 
         public void SetLayout<T>() where T : Layout
         {
-            ActiveLayout = (T)Activator.CreateInstance(typeof(T), (Func<List<List<MyGuiControlBase>>>)(() => Controls));
-            Dialog.UpdateSize(ActiveLayout.ScreenSize);
+            ActiveLayout = (T)Activator.CreateInstance(typeof(T), (Func<List<List<Control>>>)(() => Controls));
+            Dialog.UpdateSize(ActiveLayout.SettingsPanelSize);
         }
 
         public void RefreshLayout()
@@ -85,11 +85,11 @@ namespace ClientPlugin.Settings
 
         private void CreateConfigControls()
         {
-            Controls = new List<List<MyGuiControlBase>>();
+            Controls = new List<List<Control>>();
 
             foreach (AttributeInfo info in Attributes)
             {
-                Controls.Add(info.ElementType.GetElements(info.Name, info.Getter, info.Setter));
+                Controls.Add(info.ElementType.GetControls(info.Name, info.Getter, info.Setter));
             }
         }
 

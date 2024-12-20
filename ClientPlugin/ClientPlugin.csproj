@@ -496,23 +496,26 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Config.cs" />
+        <Compile Include="Plugin.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Settings\ConfigStorage.cs" />
         <Compile Include="Settings\Elements\Button.cs" />
+        <Compile Include="Settings\Elements\Checkbox.cs" />
+        <Compile Include="Settings\Elements\Color.cs" />
+        <Compile Include="Settings\Elements\Control.cs" />
         <Compile Include="Settings\Elements\Dropdown.cs" />
         <Compile Include="Settings\Elements\Element.cs" />
         <Compile Include="Settings\Elements\Keybind.cs" />
         <Compile Include="Settings\Elements\Slider.cs" />
         <Compile Include="Settings\Elements\Textbox.cs" />
-        <Compile Include="Settings\Elements\Tools.cs" />
-        <Compile Include="Settings\SettingsGenerator.cs" />
         <Compile Include="Settings\Layouts\Layout.cs" />
         <Compile Include="Settings\Layouts\None.cs" />
         <Compile Include="Settings\Layouts\Simple.cs" />
+        <Compile Include="Settings\SettingsGenerator.cs" />
         <Compile Include="Settings\SettingsScreen.cs" />
-        <Compile Include="Settings\ConfigStorage.cs" />
-        <Compile Include="Config.cs" />
-        <Compile Include="Settings\Elements\Checkbox.cs" />
-        <Compile Include="Plugin.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Settings\Tools\Binding.cs" />
+        <Compile Include="Settings\Tools\Tools.cs" />
     </ItemGroup>
     <ItemGroup>
       <Content Include="deploy.bat" />

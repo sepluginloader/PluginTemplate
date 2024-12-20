@@ -15,19 +15,20 @@ namespace ClientPlugin.Settings.Elements
             Description = description;
         }
 
-        public List<MyGuiControlBase> GetElements(string name, Func<object> propertyGetter, Action<object> propertySetter)
+        public List<Control> GetControls(string name, Func<object> propertyGetter, Action<object> propertySetter)
         {
             var textBox = new MyGuiControlTextbox(defaultText: (string)propertyGetter());
-            textBox.TextChanged += (box)=>propertySetter(box.Text);
+            textBox.TextChanged += box => propertySetter(box.Text);
             textBox.SetToolTip(Description);
 
             var label = Tools.GetLabelOrDefault(name, Label);
-            return new List<MyGuiControlBase>()
+            return new List<Control>()
             {
-                new MyGuiControlLabel(text: label),
-                textBox,
+                new Control(new MyGuiControlLabel(text: label), minWidth: Control.LabelMinWidth),
+                new Control(textBox, fillFactor: 1f),
             };
         }
+
         public List<Type> SupportedTypes { get; } = new List<Type>()
         {
             typeof(string)

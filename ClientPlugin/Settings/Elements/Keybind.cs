@@ -17,8 +17,8 @@ namespace ClientPlugin.Settings.Elements
         public readonly string Label;
         public readonly string Description;
 
-        public Func<MyKeys> PropertyGetter;
-        public Action<MyKeys> PropertySetter;
+        private Func<Binding> PropertyGetter;
+        private Action<Binding> PropertySetter;
 
         public KeybindAttribute(string label = null, string description = null)
         {
@@ -26,19 +26,43 @@ namespace ClientPlugin.Settings.Elements
             Description = description;
         }
 
-        public List<MyGuiControlBase> GetElements(string name, Func<object> propertyGetter, Action<object> propertySetter)
+        public List<Control> GetControls(string name, Func<object> propertyGetter, Action<object> propertySetter)
         {
-            PropertyGetter = ()=>(MyKeys)propertyGetter();
-            PropertySetter = (MyKeys key)=>propertySetter(key);
+            PropertyGetter = () => (Binding)propertyGetter();
+            PropertySetter = (Binding b) => propertySetter(b);
+
+            var binding = PropertyGetter();
 
             var label = new MyGuiControlLabel(text: Tools.GetLabelOrDefault(name, Label));
+
+            var ctrl = new MyGuiControlCheckbox(isChecked: binding.Ctrl, toolTip: "Ctrl");
+            var alt = new MyGuiControlCheckbox(isChecked: binding.Alt, toolTip: "Alt");
+            var shift = new MyGuiControlCheckbox(isChecked: binding.Shift, toolTip: "Shift");
+            
+            ctrl.IsCheckedChanged += (cb) => {
+                var b = PropertyGetter();
+                b.Ctrl = cb.IsChecked;
+                PropertySetter(b);
+            };
+
+            alt.IsCheckedChanged += (cb) => {
+                var b = PropertyGetter();
+                b.Alt = cb.IsChecked;
+                PropertySetter(b);
+            };
+
+            shift.IsCheckedChanged += (cb) => {
+                var b = PropertyGetter();
+                b.Shift = cb.IsChecked;
+                PropertySetter(b);
+            };
 
             var control = new MyControl(
                 MyStringId.GetOrCompute($"{name.Replace(" ", "")}Keybind"),
                 MyStringId.GetOrCompute(name),
                 MyGuiControlTypeEnum.General,
                 null,
-                PropertyGetter());
+                binding.Key);
 
             StringBuilder output = null;
             control.AppendBoundButtonNames(ref output, MyGuiInputDeviceEnum.Keyboard);
@@ -54,12 +78,19 @@ namespace ClientPlugin.Settings.Elements
                 UserData = new ControlButtonData(control, MyGuiInputDeviceEnum.Keyboard),
             };
 
-            return new List<MyGuiControlBase>() { label, button };
+            return new List<Control>()
+            {
+                new Control(label, minWidth: Control.LabelMinWidth),
+                new Control(button),
+                new Control(ctrl, offset: new Vector2(0f, -0.0025f)),
+                new Control(alt, offset: new Vector2(0f, -0.0025f)),
+                new Control(shift, offset: new Vector2(0f, -0.0025f)),
+            };
         }
 
         public List<Type> SupportedTypes { get; } = new List<Type>()
         {
-            typeof(MyKeys)
+            typeof(Binding)
         };
 
         private class ControlButtonData
@@ -134,7 +165,9 @@ namespace ClientPlugin.Settings.Elements
             var userData = (ControlButtonData)button.UserData;
             userData.Control.AppendBoundButtonNames(ref output, userData.Device);
 
-            PropertySetter(userData.Control.GetKeyboardControl());
+            var binding = PropertyGetter();
+            binding.Key = userData.Control.GetKeyboardControl();
+            PropertySetter(binding);
 
             MyControl.AppendUnknownTextIfNeeded(ref output, MyTexts.GetString(MyCommonTexts.UnknownControl_None));
             button.Text = output.ToString();

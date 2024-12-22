@@ -15,7 +15,7 @@
 1. Click on **Use this template** (top right corner on GitHub) and follow the wizard to create your repository
 2. Clone your repository to have a local working copy
 3. Run `setup.py`, enter the name of your plugin project in `CapitalizedWords` format
-4. Let `setup.py` auto-detect your install locations or fill them in maually
+4. Let `setup.py` auto-detect your install locations or fill them in manually
 5. Open the solution in Visual Studio or Rider
 6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log)
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI

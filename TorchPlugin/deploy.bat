@@ -19,7 +19,7 @@ if "%SOURCE:~-1%"=="\" set SOURCE=%SOURCE:~0,-1%
 if "%TORCH:~-1%"=="\" set TORCH=%TORCH:~0,-1%
 
 REM Get the plugin directory
-set PLUGIN_DIR=%TORCH%\Plugins\MultigridProjector
+set PLUGIN_DIR=%TORCH%\Plugins
 
 REM Create this directory if it does not exist
 if not exist "%PLUGIN_DIR%" (

@@ -38,36 +38,14 @@ for /l %%i in (1, 1, 10) do (
         REM so we use ping as a way to delay the script between retries.
         ping -n 2 127.0.0.1 >NUL 2>&1
     ) else (
-        goto BREAK_LOOP_PLUGIN
+        goto BREAK_LOOP
     )
 )
 
 REM This part will only be reached if the loop has been exhausted
-REM Any success would skip to the BREAK_LOOP_PLUGIN label below
+REM Any success would skip to the BREAK_LOOP label below
 echo ERROR: Could not copy "%NAME%".
 exit /b 1
 
-:BREAK_LOOP_PLUGIN
-
-REM Copy Harmony into the plugin directory
-echo Copying "0Harmony.dll" to "%PLUGIN_DIR%\"
-
-for /l %%i in (1, 1, 10) do (
-    copy /y "%SOURCE%\0Harmony.dll" "%PLUGIN_DIR%\"
-
-    if !ERRORLEVEL! NEQ 0 (
-        REM "timeout" requires input redirection which is not supported,
-        REM so we use ping as a way to delay the script between retries.
-        ping -n 2 127.0.0.1 >NUL 2>&1
-    ) else (
-        goto BREAK_LOOP_HARMONY
-    )
-)
-
-REM This part will only be reached if the loop has been exhausted
-REM Any success would skip to the BREAK_LOOP_HARMONY label below
-echo ERROR: Could not copy "0Harmony.dll".
-exit /b 1
-
-:BREAK_LOOP_HARMONY
+:BREAK_LOOP
 exit /b 0

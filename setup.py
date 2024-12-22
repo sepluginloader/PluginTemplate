@@ -72,7 +72,7 @@ def _input_question(prompt: str) -> bool:
         if response in ["y", "yes"]:
             return True
 
-        print("Unknown response (Yes/No)")
+        print("Unknown response (Y/N)")
 
 
 def _rename_project(name: str) -> None:
@@ -216,7 +216,7 @@ def main() -> None:
         else:
             print("Skipping project rename")
 
-    if _input_question("Auto-detect reference locations? (Yes/No)"):
+    if _input_question("Auto-detect reference locations? (Y/N) [Y]: "):
         vdf_path = f"{_get_steam_path()}\\steamapps\\libraryfolders.vdf"
         locations = _get_install_locations(vdf_path, ["244850", "298740"])
 
@@ -231,7 +231,7 @@ def main() -> None:
             print("Could not find Dedicated Server install location.")
 
         locations["torch"] = (
-            input("Enter Torch path (leave blank if installed into DS):\n")
+            input("Enter Torch path (leave blank if installed into DS): ")
             or locations["298740"]
         )
         _update_props(locations["244850"], locations["298740"], locations["torch"])

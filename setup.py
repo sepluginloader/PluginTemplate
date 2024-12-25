@@ -63,9 +63,13 @@ def _input_plugin_name() -> str:
     return plugin_name
 
 
-def _input_question(prompt: str) -> bool:
+def _input_question(prompt: str, default: bool | None = None) -> bool:
     while True:
         response = input(prompt).lower()
+
+        if default is not None and len(response) == 0:
+            return default
+
         if response in ["n", "no"]:
             return False
 
@@ -216,7 +220,7 @@ def main() -> None:
         else:
             print("Skipping project rename")
 
-    if _input_question("Auto-detect reference locations? (Y/N) [Y]: "):
+    if _input_question("Auto-detect reference locations? (Y/N) [Y]: ", True):
         vdf_path = f"{_get_steam_path()}\\steamapps\\libraryfolders.vdf"
         locations = _get_install_locations(vdf_path, ["244850", "298740"])
 

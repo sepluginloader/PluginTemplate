@@ -12,18 +12,29 @@ REM Extract parameters and remove quotes
 set NAME=%~1
 set SOURCE=%~2
 set TORCH=%~3
+set PROJECT=%~4
 
 REM Remove trailing backslash if applicable
 if "%NAME:~-1%"=="\" set NAME=%NAME:~0,-1%
 if "%SOURCE:~-1%"=="\" set SOURCE=%SOURCE:~0,-1%
 if "%TORCH:~-1%"=="\" set TORCH=%TORCH:~0,-1%
+if "%PROJECT:~-1%"=="\" set PROJECT=%PROJECT:~0,-1%
 
 REM Get the plugin directory
-set PLUGIN_DIR=%TORCH%\Plugins
+set COMMON_PLUGIN_DIR=%TORCH%\Plugins
+
+REM Create this directory if it does not exist
+if not exist "%COMMON_PLUGIN_DIR%" (
+    echo Creating "Plugins\" folder in "%TORCH%\"
+    mkdir -p "%COMMON_PLUGIN_DIR%" >NUL 2>&1
+)
+
+REM Get the specific plugin directory
+set PLUGIN_DIR=%COMMON_PLUGIN_DIR%\%PROJECT%
 
 REM Create this directory if it does not exist
 if not exist "%PLUGIN_DIR%" (
-    echo Creating "Plugins\" folder in "%TORCH%\"
+    echo Creating "%PROJECT%\" folder in "%COMMON_PLUGIN_DIR%\"
     mkdir -p "%PLUGIN_DIR%" >NUL 2>&1
 )
 

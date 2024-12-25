@@ -648,6 +648,6 @@
     <PreBuildEvent>call "$(SolutionDir)verify_props.bat" "$(Torch)"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call "$(ProjectDir)deploy.bat" "$(TargetFileName)" "$(TargetDir)" "$(Torch)"</PostBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)deploy.bat" "$(TargetFileName)" "$(TargetDir)" "$(Torch)" "$(ProjectName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

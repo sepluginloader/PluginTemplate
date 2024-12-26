@@ -102,10 +102,6 @@
       <HintPath>$(Torch)\DedicatedServer64\Sandbox.RenderDirect.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SpaceEngineers.Game">
-      <HintPath>..\Bin64\SpaceEngineers.Game.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SteamKit2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>$(Torch)\SteamKit2.dll</HintPath>
       <Private>False</Private>
@@ -648,6 +644,6 @@
     <PreBuildEvent>call "$(SolutionDir)verify_props.bat" "$(Torch)"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call "$(ProjectDir)deploy.bat" "$(TargetFileName)" "$(TargetDir)" "$(Torch)" "$(ProjectName)"</PostBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)deploy.bat" "$(TargetFileName)" "$(TargetDir)" "$(Torch)" "$(SolutionName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

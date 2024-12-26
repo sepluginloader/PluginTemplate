@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 
 namespace ClientPlugin.Settings
@@ -27,19 +26,6 @@ namespace ClientPlugin.Settings
         private List<List<Control>> Controls;
         public SettingsScreen Dialog { get; private set; }
         public Layout ActiveLayout { get; private set; }
-
-        private static string UnCamelCase(string str)
-        {
-            return Regex.Replace(
-                Regex.Replace(
-                    str,
-                    @"(\P{Ll})(\P{Ll}\p{Ll})",
-                    "$1 $2"
-                ),
-                @"(\p{Ll})(\P{Ll})",
-                "$1 $2"
-            );
-        }
 
         private static bool validateType(Type type, List<Type> typesList)
         {

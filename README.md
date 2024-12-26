@@ -8,18 +8,17 @@
 - [Python 3.x](https://python.org) (tested with 3.9)
 - [Plugin Loader](https://github.com/sepluginloader)
 - [Torch Server](https://torchapi.com/) in `C:\Torch`, run `Torch.Server.exe` once to prepare
-- [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481) 
+- [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481)
 
 ## Create your plugin project
 
 1. Click on **Use this template** (top right corner on GitHub) and follow the wizard to create your repository
 2. Clone your repository to have a local working copy
-3. Run `ReplaceGuidsAndRename.py`, enter the name of your plugin project in `CapitalizedWords` format
-4. Edit `Edit-and-run-before-opening-solution.bat` to match your local paths, then run it
+3. Run `setup.py`, enter the name of your plugin project in `CapitalizedWords` format
+4. Let `setup.py` auto-detect your install locations or fill them in manually
 5. Open the solution in Visual Studio or Rider
-6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log) 
+6. Make a test build, it should deploy the resulting files to their respective target folders (see them in the build log)
 7. Test that the empty plugin can be enabled in Plugin Loader (client), Torch Server's UI and the Dedicated Server's UI
-8. Delete the `ReplaceGuidsAndRename.py` from the `Solution Items` folder of the solution (it is not needed anymore)
 9. Replace the contents of this file with the description of your plugin
 10. Follow the TODO comments in the source code
 11. Look into the source code of other plugins for examples on how to patch the game
@@ -30,7 +29,7 @@ You may find the source code of these plugins inspirational:
 - [Toolbar Manager](https://github.com/viktor-ferenczi/toolbar-manager)
 
 In case of questions please feel free to ask the SE plugin developer community on the
-[Plugin Loader](https://discord.gg/6ETGRU3CzR) or the [Torch](https://discord.gg/xNFpHM6V8Q) 
+[Plugin Loader](https://discord.gg/6ETGRU3CzR) or the [Torch](https://discord.gg/xNFpHM6V8Q)
 Discord server in their relevant text channels. They also have dedicated channels for
 plugin ideas, should you look for a new one.
 
@@ -54,20 +53,20 @@ server side configuration, currently.
 
 ### Conditional compilation
 
-- DedicatedPlugin defines `DEDICATED`, TorchPlugin defines `TORCH`. 
+- DedicatedPlugin defines `DEDICATED`, TorchPlugin defines `TORCH`.
   You can use those names for conditional compilation by `#if` blocks in the Shared project.
-  For example if you want your code to compile for client and dedicated server plugins, but 
-  not for the Torch plugin, then put it into a `#if !TORCH` ... `#endif` block. 
+  For example if you want your code to compile for client and dedicated server plugins, but
+  not for the Torch plugin, then put it into a `#if !TORCH` ... `#endif` block.
 
 ### Shared project
 
-- Put any code you can share between the plugin projects into the Shared project. 
+- Put any code you can share between the plugin projects into the Shared project.
   Try to keep the redundancy at the minimum.
 
-- The DLLs required by your Shared code need to be added as a dependency to all the projects, 
+- The DLLs required by your Shared code need to be added as a dependency to all the projects,
   even if some of the code is not used by one of the projects.
 
-- You can delete the projects you don't need. If you want only a single project, 
+- You can delete the projects you don't need. If you want only a single project,
   then move over what is in the Shared one, then you can delete Shared.
 
 ### Torch plugin
@@ -79,11 +78,11 @@ server side configuration, currently.
 - If you don't need the config UI in Torch for your plugin, then remove the IWpfPlugin
   from the Plugin class and the `xaml` and `xaml.cs` files. Also remove the now unused
   `GetControl` method.
- 
+
 - While you can use HarmonyLib for patching in Torch plugins, Torch has its own patching
-  mechanism, which is more compatible with other plugins, but less convenient to use. 
+  mechanism, which is more compatible with other plugins, but less convenient to use.
   If you want to remove Harmony from the Torch plugin, then search for USE_HARMONY in all
-  files, which will show you where to make changes. Also remove Lib.Harmony from the 
+  files, which will show you where to make changes. Also remove Lib.Harmony from the
   TorchPlugin project's NuGet package dependencies. Please note then in this case you
   must also remove all uses of Harmony from your Torch plugin code.
 
@@ -94,7 +93,7 @@ with an error logged should the code in any of the methods patched would change 
 a game update. It is a good way to prevent blaming crashes on your plugin after game updates,
 so your plugin can remain safely enabled (but effectively disabled) until you have a chance
 to release an update for compatibility with the new game version. Please see the examples in
-the `Shared/Patches` folder on how to use this attribute. 
+the `Shared/Patches` folder on how to use this attribute.
 
 The hexadecimal hash code is logged in case of a mismatch, so you can read them from the logs
 for any new method you patch, just leave the string initially empty in the `EnsureCode`
@@ -103,7 +102,7 @@ with the patch for the first time.
 
 On Proton (Linux) this check tends to cause issues, therefore there is a configuration flag
 to turn it OFF. Setting the `SE_PLUGIN_DISABLE_METHOD_VERIFICATION` environment variable to
-any value on the player's host also disables game code verification. 
+any value on the player's host also disables game code verification.
 
 ### Debugging
 
